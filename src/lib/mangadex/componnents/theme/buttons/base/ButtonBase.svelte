@@ -72,8 +72,9 @@
 		padding: 0px;
 	}
 	button.isBase {
-		border-color: var(--button-active, var(--mid-tone));
-		box-shadow: 0px 4px 0px var(--button-active, var(--mid-tone));
+		/* We used var(--button-active, var(--mid-tone)) for the border but it is inconsistent */
+		border-color: var(--mid-tone);
+		box-shadow: 0px 4px 0px var(--mid-tone);
 		min-height: 3em;
 		min-width: 3em;
 		padding-left: 0.75rem;
