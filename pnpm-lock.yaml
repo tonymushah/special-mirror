@@ -56,7 +56,7 @@ importers:
         version: 3.2.0(graphql@16.14.0)
       '@humanspeak/svelte-markdown':
         specifier: ^1.4.5
-        version: 1.5.0(svelte@5.55.8)
+        version: 1.5.1(svelte@5.55.8)
       '@icons-pack/svelte-simple-icons':
         specifier: ^7.2.0
         version: 7.2.0(@sveltejs/kit@2.60.1(@sveltejs/vite-plugin-svelte@7.1.2(@voidzero-dev/vite-plus-core@0.1.21(@types/node@24.12.4)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(typescript@6.0.3)(yaml@2.8.4))(svelte@5.55.8))(@voidzero-dev/vite-plus-core@0.1.21(@types/node@24.12.4)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(typescript@6.0.3)(yaml@2.8.4))(svelte@5.55.8)(typescript@6.0.3))(svelte@5.55.8)
@@ -591,8 +591,8 @@ packages:
     resolution: {integrity: sha512-8nS/7OIysYsjd5d64cprdwupgqzpMmFDHw25EWuPLRxxJw5q91K7Z+bjIcAPjikMU9vmptY5GyhsZDbcr1ym4Q==}
     engines: {node: '>=18.0.0'}
 
-  '@humanspeak/svelte-markdown@1.5.0':
-    resolution: {integrity: sha512-eZ58Qs2Cyu5aKnRVMkS29Z91SJInbrO58oGgn1wbtiwS5rV+VvSbMJvJ17y/N1LtE8Ryez3Jphr+F3p4k75JMw==}
+  '@humanspeak/svelte-markdown@1.5.1':
+    resolution: {integrity: sha512-6UvSP6w5qQIMA8gP3fC6Nk8EnKfDYQ+KopSeidAgD6NkeF/kA2guF5lJFHfzB29IEg5FDL8ib/QSrnRC+r+hxA==}
     peerDependencies:
       katex: '>=0.16.0'
       mermaid: '>=10.0.0'
@@ -4008,7 +4008,7 @@ snapshots:
 
   '@humanspeak/memory-cache@1.0.6': {}
 
-  '@humanspeak/svelte-markdown@1.5.0(svelte@5.55.8)':
+  '@humanspeak/svelte-markdown@1.5.1(svelte@5.55.8)':
     dependencies:
       '@humanspeak/memory-cache': 1.0.6
       github-slugger: 2.0.0
