@@ -56,7 +56,7 @@ importers:
         version: 3.2.0(graphql@16.14.0)
       '@humanspeak/svelte-markdown':
         specifier: ^1.4.5
-        version: 1.5.1(svelte@5.55.8)
+        version: 1.5.2(svelte@5.55.8)
       '@icons-pack/svelte-simple-icons':
         specifier: ^7.2.0
         version: 7.2.0(@sveltejs/kit@2.60.1(@sveltejs/vite-plugin-svelte@7.1.2(@voidzero-dev/vite-plus-core@0.1.21(@types/node@24.12.4)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(typescript@6.0.3)(yaml@2.8.4))(svelte@5.55.8))(@voidzero-dev/vite-plus-core@0.1.21(@types/node@24.12.4)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(typescript@6.0.3)(yaml@2.8.4))(svelte@5.55.8)(typescript@6.0.3))(svelte@5.55.8)
@@ -591,8 +591,8 @@ packages:
     resolution: {integrity: sha512-8nS/7OIysYsjd5d64cprdwupgqzpMmFDHw25EWuPLRxxJw5q91K7Z+bjIcAPjikMU9vmptY5GyhsZDbcr1ym4Q==}
     engines: {node: '>=18.0.0'}
 
-  '@humanspeak/svelte-markdown@1.5.1':
-    resolution: {integrity: sha512-6UvSP6w5qQIMA8gP3fC6Nk8EnKfDYQ+KopSeidAgD6NkeF/kA2guF5lJFHfzB29IEg5FDL8ib/QSrnRC+r+hxA==}
+  '@humanspeak/svelte-markdown@1.5.2':
+    resolution: {integrity: sha512-POzfm7/gLEnjQ+2QiCF5jcr/yQ34Y9vpkpTmN9JhoXc1mXtBSYPANlYaksocSWVgt3dPvddg9uxRBXnxgsDAsQ==}
     peerDependencies:
       katex: '>=0.16.0'
       mermaid: '>=10.0.0'
@@ -2754,8 +2754,8 @@ packages:
     resolution: {integrity: sha512-8y/eV9QQZCiyn1SprXSrCmqJN0yNRATe+PO8ztwqrvrbdRLA3eYJF0yaR0YayLWkMbsQSKWS9N2gPcGEc4UsZg==}
     engines: {node: '>=0.10.0'}
 
-  marked@18.0.3:
-    resolution: {integrity: sha512-7VT90JOkDeaRWpfjOReRGPEKn0ecdARBkDGL+tT1wZY0efPPqkUxLUSmzy/C7TIylQYJC9STISEsCHrqb/7VIA==}
+  marked@18.0.4:
+    resolution: {integrity: sha512-c/BTaKzg0G6ezQx97DAkYU7k0HM6ys0FqYeKBL6hlBByZwy+ycA1+f0vDdjMHKKeEjdgkx0GOv9Il6D+85cOqA==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -4008,12 +4008,12 @@ snapshots:
 
   '@humanspeak/memory-cache@1.0.6': {}
 
-  '@humanspeak/svelte-markdown@1.5.1(svelte@5.55.8)':
+  '@humanspeak/svelte-markdown@1.5.2(svelte@5.55.8)':
     dependencies:
       '@humanspeak/memory-cache': 1.0.6
       github-slugger: 2.0.0
       htmlparser2: 12.0.0
-      marked: 18.0.3
+      marked: 18.0.4
       svelte: 5.55.8
 
   '@icons-pack/svelte-simple-icons@7.2.0(@sveltejs/kit@2.60.1(@sveltejs/vite-plugin-svelte@7.1.2(@voidzero-dev/vite-plus-core@0.1.21(@types/node@24.12.4)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(typescript@6.0.3)(yaml@2.8.4))(svelte@5.55.8))(@voidzero-dev/vite-plus-core@0.1.21(@types/node@24.12.4)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(typescript@6.0.3)(yaml@2.8.4))(svelte@5.55.8)(typescript@6.0.3))(svelte@5.55.8)':
@@ -6011,7 +6011,7 @@ snapshots:
 
   map-cache@0.2.2: {}
 
-  marked@18.0.3: {}
+  marked@18.0.4: {}
 
   mdn-data@2.0.28: {}
 
