@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { getRelatedChapters, hasRelatedChapters } from "../../../../contexts/relatedChapters";
+	import {
+		getRelatedChapters,
+		hasRelatedChapters,
+	} from "../../../../contexts/relatedChapters";
 	import MangaDexVarThemeProvider from "@mangadex/componnents/theme/MangaDexVarThemeProvider.svelte";
 	import { getCurrentChapterData } from "../../../../contexts/currentChapter";
 	import { slide } from "svelte/transition";
@@ -30,11 +33,11 @@
 				return {
 					id,
 					label,
-					volume: volume ?? "none"
+					volume: volume ?? "none",
 				};
 			}),
-			"volume"
-		)
+			"volume",
+		),
 	);
 	const current = getCurrentChapterData();
 	const isSelected = (value: string) => $current.id == value;
@@ -51,7 +54,7 @@
 		setOpen: (o) => (open = o),
 		sameWidth: true,
 		closeOnClick: true,
-		closeOnOutClick: true
+		closeOnOutClick: true,
 	});
 </script>
 
@@ -62,6 +65,7 @@
 			onclick={() => {
 				open = !open;
 			}}
+			data-text-overflow="clip"
 		>
 			{#if $current.chapterNumber != undefined}
 				Chapter {$current.chapterNumber}

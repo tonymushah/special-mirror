@@ -11,4 +11,5 @@
 	onclick={fireReportChapterEvent}
 	icon={Icon}
 	label="Report Chapter"
+	data-text-overflow="clip"
 />

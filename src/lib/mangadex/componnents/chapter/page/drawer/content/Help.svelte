@@ -8,10 +8,17 @@
 <section>
 	<Tooltip rootDisplay="grid">
 		{#snippet triggerContent()}
-			<ButtonAccentOnlyLabel icon={Icon} onclick={fireChapterHelpEvent} label="Help" />
+			<ButtonAccentOnlyLabel
+				icon={Icon}
+				onclick={fireChapterHelpEvent}
+				label="Help"
+				data-text-overflow="clip"
+			/>
 		{/snippet}
 		{#snippet tooltipContent()}
-			<p class="description">It's the manual or <br /> whatever I will show there</p>
+			<p class="description">
+				It's the manual or <br /> whatever I will show there
+			</p>
 		{/snippet}
 	</Tooltip>
 </section>

@@ -44,6 +44,7 @@
 						break;
 				}
 			}}
+			data-text-overflow="clip"
 		/>
 	</SettingsTransitComp>
 {/if}

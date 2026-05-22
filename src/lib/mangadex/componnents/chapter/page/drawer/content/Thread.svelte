@@ -24,6 +24,7 @@
 		variant="3"
 		icon={Icon}
 		label={$label}
+		data-text-overflow="clip"
 	/>
 </section>
 

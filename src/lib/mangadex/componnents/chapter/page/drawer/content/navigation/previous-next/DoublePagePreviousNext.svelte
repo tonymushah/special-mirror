@@ -99,12 +99,17 @@
 	const variant = "2";
 </script>
 
-<ButtonAccent {variant} onclick={onPrevious} {disabled}>
+<ButtonAccent
+	{variant}
+	onclick={onPrevious}
+	{disabled}
+	data-text-overflow="clip"
+>
 	<ArrowLeftIcon />
 </ButtonAccent>
 
 {@render children?.()}
 
-<ButtonAccent {variant} onclick={onNext} {disabled}>
+<ButtonAccent {variant} onclick={onNext} {disabled} data-text-overflow="clip">
 	<ArrowRightIcon />
 </ButtonAccent>

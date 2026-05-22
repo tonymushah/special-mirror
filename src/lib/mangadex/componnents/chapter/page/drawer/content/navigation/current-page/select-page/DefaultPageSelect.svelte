@@ -15,7 +15,7 @@
 		const page = $currentPageContext;
 		return {
 			value: page,
-			label: `${page + 1}`
+			label: `${page + 1}`,
 		} as SelectOption<number>;
 	});
 	//const currentData = getCurrentChapterData();
@@ -23,8 +23,8 @@
 	let options = $derived.by(() =>
 		range(0, images.images.length).map<SelectOption<number>>((index) => ({
 			value: index,
-			label: `${index + 1}`
-		}))
+			label: `${index + 1}`,
+		})),
 	);
 	let selected: WritableValue<SelectOption<number>> = {
 		get value() {
@@ -32,7 +32,7 @@
 		},
 		set value(value) {
 			currentPageContext.set(value.value);
-		}
+		},
 	};
 	function isSelected(val: number) {
 		return selected.value.value == val;
@@ -49,7 +49,7 @@
 		setOpen: (o) => (open = o),
 		sameWidth: true,
 		closeOnClick: true,
-		closeOnOutClick: true
+		closeOnOutClick: true,
 	});
 </script>
 
@@ -59,6 +59,7 @@
 			onclick={() => {
 				open = !open;
 			}}
+			data-text-overflow="clip"
 		>
 			Page: {selected.value.label}
 		</ButtonAccent>
@@ -131,10 +132,18 @@
 			background-color: var(--primary);
 		}
 		.li.isSelected:hover {
-			background-color: color-mix(in srgb, var(--primary) 70%, var(--accent-hover) 30%);
+			background-color: color-mix(
+				in srgb,
+				var(--primary) 70%,
+				var(--accent-hover) 30%
+			);
 		}
 		.li.isSelected:active {
-			background-color: color-mix(in srgb, var(--primary) 70%, var(--accent-active) 30%);
+			background-color: color-mix(
+				in srgb,
+				var(--primary) 70%,
+				var(--accent-active) 30%
+			);
 		}
 	}
 	.input {

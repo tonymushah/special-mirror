@@ -7,7 +7,12 @@
 	import SettingsTransitComp from "./utils/SettingsTransitComp.svelte";
 	import MangaDexVarThemeProvider from "@mangadex/componnents/theme/MangaDexVarThemeProvider.svelte";
 	import { slide } from "svelte/transition";
-	import { BookOpenIcon, FileIcon, MoreHorizontalIcon, MoreVerticalIcon } from "@lucide/svelte";
+	import {
+		BookOpenIcon,
+		FileIcon,
+		MoreHorizontalIcon,
+		MoreVerticalIcon,
+	} from "@lucide/svelte";
 	import { getCurrentChapterData } from "../../../contexts/currentChapter";
 	import { floatingUImenu } from "@mangadex/utils/floating-ui/menu.svelte";
 
@@ -40,7 +45,7 @@
 		setOpen: (o) => (open = o),
 		sameWidth: true,
 		closeOnClick: true,
-		closeOnOutClick: true
+		closeOnOutClick: true,
 	});
 </script>
 
@@ -76,6 +81,7 @@
 					}
 				}
 			}}
+			data-text-overflow="clip"
 		/>
 	</div>
 	{#if open && !$currentData.isLongstrip}

@@ -86,9 +86,9 @@
 			width: 12px;
 		}
 		:global(*::-webkit-scrollbar-thumb) {
-			border-radius: 0.25em;
+			border-radius: var(--radius-md);
 			background-color: var(--scrollbar-color);
-			transition: background-color 300ms ease-in-out;
+			border: 1px var(--mid-tone) solid;
 		}
 		:global(*::-webkit-scrollbar-thumb:hover) {
 			background-color: var(--scrollbar-color-hover);
@@ -106,9 +106,9 @@
 		width: 12px;
 	}
 	.inner::-webkit-scrollbar-thumb {
-		border-radius: 0.25em;
+		border-radius: var(--radius-md);
 		background-color: var(--scrollbar-color);
-		transition: background-color 300ms ease-in-out;
+		border: 1px var(--mid-tone) solid;
 	}
 	.inner::-webkit-scrollbar-thumb:hover {
 		background-color: var(--scrollbar-color-hover);

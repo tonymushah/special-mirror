@@ -64,7 +64,7 @@ const readDrawerMode = derived(subStore, (d) => d?.drawer ?? DrawerMode.Unpinned
 
 const readProgressMode = derived(
 	subStore,
-	(d) => d?.progress ?? ProgressMode.Default,
+	(d) => d?.progress ?? ProgressMode.Hidden,
 	ProgressMode.Hidden
 );
 

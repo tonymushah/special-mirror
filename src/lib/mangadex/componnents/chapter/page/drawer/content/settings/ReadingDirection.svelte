@@ -32,6 +32,7 @@
 					readingDirection.set(Direction.Ltr);
 				}
 			}}
+			data-text-overflow="clip"
 		/>
 	</SettingsTransitComp>
 {/if}

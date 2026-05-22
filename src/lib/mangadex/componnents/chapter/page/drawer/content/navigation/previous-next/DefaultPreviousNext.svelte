@@ -1,8 +1,16 @@
 <script lang="ts">
 	import { getChapterCurrentPageContext } from "@mangadex/componnents/chapter/page/contexts/currentPage";
 	import ButtonAccent from "@mangadex/componnents/theme/buttons/ButtonAccent.svelte";
-	import { ArrowLeftIcon, ArrowUpIcon, ArrowRightIcon, ArrowDownIcon } from "@lucide/svelte";
-	import { Direction as ReadingDirection, ReadingMode } from "@mangadex/gql/graphql";
+	import {
+		ArrowLeftIcon,
+		ArrowUpIcon,
+		ArrowRightIcon,
+		ArrowDownIcon,
+	} from "@lucide/svelte";
+	import {
+		Direction as ReadingDirection,
+		ReadingMode,
+	} from "@mangadex/gql/graphql";
 	import { getCurrentChapterDirection } from "@mangadex/componnents/chapter/page/contexts/readingDirection";
 	import { resetZoom } from "@mangadex/componnents/chapter/page/contexts/resetZoomEventTarget";
 	import getCurrentChapterImages from "@mangadex/componnents/chapter/page/utils/getCurrentChapterImages";
@@ -71,7 +79,12 @@
 	let isLongstrip = $derived($readingMode == ReadingMode.LongStrip);
 </script>
 
-<ButtonAccent {variant} onclick={onPrevious} disabled={images_context.pagesLen == undefined}>
+<ButtonAccent
+	{variant}
+	onclick={onPrevious}
+	disabled={images_context.pagesLen == undefined}
+	data-text-overflow="clip"
+>
 	{#if isLongstrip}
 		{#if $direction == ReadingDirection.Ltr}
 			<ArrowUpIcon />
@@ -85,7 +98,11 @@
 
 {@render children?.()}
 
-<ButtonAccent {variant} onclick={onNext} disabled={images_context.pagesLen == undefined}>
+<ButtonAccent
+	{variant}
+	onclick={onNext}
+	disabled={images_context.pagesLen == undefined}
+>
 	{#if isLongstrip}
 		{#if $direction == ReadingDirection.Ltr}
 			<ArrowDownIcon />

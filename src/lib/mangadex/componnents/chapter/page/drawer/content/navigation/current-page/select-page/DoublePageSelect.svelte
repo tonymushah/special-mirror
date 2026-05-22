@@ -32,16 +32,18 @@
 			: `${value + 1}`;
 		return {
 			value /*: isArray(value) && $dir == ReadingDirection.Rtl ? value.toReversed() : value*/,
-			label
+			label,
 		} as SelectOption<Page>;
 	});
 	let options = $derived.by(() => {
-		return doublePages.map<SelectOption<[number, number] | number>>((value) => ({
-			value,
-			label: isArray(value)
-				? `${value[$readingDirection == ReadingDirection.Ltr ? 0 : 1] + 1} - ${value[$readingDirection == ReadingDirection.Ltr ? 1 : 0] + 1}`
-				: `${value + 1}`
-		}));
+		return doublePages.map<SelectOption<[number, number] | number>>(
+			(value) => ({
+				value,
+				label: isArray(value)
+					? `${value[$readingDirection == ReadingDirection.Ltr ? 0 : 1] + 1} - ${value[$readingDirection == ReadingDirection.Ltr ? 1 : 0] + 1}`
+					: `${value + 1}`,
+			}),
+		);
 	});
 
 	let selected: WritableValue<SelectOption<Page>> = {
@@ -50,10 +52,12 @@
 		},
 		set value(_value) {
 			const value = isArray(_value.value)
-				? _value.value[$readingDirection == ReadingDirection.Ltr ? 0 : 1]
+				? _value.value[
+						$readingDirection == ReadingDirection.Ltr ? 0 : 1
+					]
 				: _value.value;
 			currentPageContext.set(value);
-		}
+		},
 	};
 	const isSelected = (value: Page) => {
 		if (selected.value.value == undefined) {
@@ -85,7 +89,7 @@
 		setOpen: (o) => (open = o),
 		sameWidth: true,
 		closeOnClick: true,
-		closeOnOutClick: true
+		closeOnOutClick: true,
 	});
 </script>
 
@@ -95,6 +99,7 @@
 			onclick={() => {
 				open = !open;
 			}}
+			data-text-overflow="clip"
 		>
 			Page: {selected.value.label}
 		</ButtonAccent>
@@ -109,7 +114,7 @@
 							onclick={() => {
 								selected.value = {
 									value,
-									label
+									label,
 								};
 							}}
 							class:isSelected={isSelected(value)}
@@ -171,10 +176,18 @@
 			background-color: var(--primary);
 		}
 		.li.isSelected:hover {
-			background-color: color-mix(in srgb, var(--primary) 70%, var(--accent-hover) 30%);
+			background-color: color-mix(
+				in srgb,
+				var(--primary) 70%,
+				var(--accent-hover) 30%
+			);
 		}
 		.li.isSelected:active {
-			background-color: color-mix(in srgb, var(--primary) 70%, var(--accent-active) 30%);
+			background-color: color-mix(
+				in srgb,
+				var(--primary) 70%,
+				var(--accent-active) 30%
+			);
 		}
 	}
 	.input {

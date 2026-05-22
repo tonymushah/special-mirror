@@ -3,7 +3,6 @@
 	import { getCurrentChapterData } from "../../../contexts/currentChapter";
 	import { derived } from "svelte/store";
 	import Link from "@mangadex/componnents/theme/links/Link.svelte";
-	import { goto } from "$app/navigation";
 	import { route } from "$lib/ROUTES";
 	const current = getCurrentChapterData();
 	const groups = derived(current, ($current) => $current.groups);
@@ -17,7 +16,7 @@
 				<Link
 					variant="base"
 					href={route("/mangadex/group/[id]", {
-						id: group.id
+						id: group.id,
 					})}
 					>{group.name}
 				</Link>
@@ -33,6 +32,9 @@
 		display: flex;
 		gap: 10px;
 		align-items: center;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: clip;
 		ul {
 			list-style: none;
 			padding: 0;
@@ -40,6 +42,12 @@
 			display: grid;
 			span.no-group {
 				font-style: italic;
+			}
+			li,
+			span.no-group {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 		}
 	}

@@ -15,7 +15,10 @@
 		flex-direction: column;
 		gap: 5px;
 		p {
-			margin: 0;
+			margin: 0px;
+			text-overflow: clip;
+			white-space: nowrap;
+			overflow: hidden;
 		}
 	}
 </style>

@@ -5,7 +5,10 @@
 	import Icon from "./change-group/Icon.svelte";
 	import { fireChapterChangeGroupThreadEvent } from "../../contexts/previousNextEventTarget";
 
-	const canChange = derived(getCurrentChapterData(), ($current) => $current.canChangeGroups);
+	const canChange = derived(
+		getCurrentChapterData(),
+		($current) => $current.canChangeGroups,
+	);
 </script>
 
 {#if $canChange}
@@ -15,6 +18,7 @@
 			onclick={fireChapterChangeGroupThreadEvent}
 			label="Change group"
 			icon={Icon}
+			data-text-overflow="clip"
 		/>
 	</section>
 {/if}

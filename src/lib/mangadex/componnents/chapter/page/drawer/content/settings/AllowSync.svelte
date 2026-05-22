@@ -17,5 +17,6 @@
 		onclick={() => {
 			allowSync.allow = !allowSync.allow;
 		}}
+		data-text-overflow="clip"
 	/>
 </SettingsTransitComp>
