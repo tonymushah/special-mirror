@@ -17,7 +17,7 @@
 			{#if $current.series != undefined}
 				<Link
 					href={route("/mangadex/title/[id]", {
-						id: $current.series.id
+						id: $current.series.id,
 					})}
 					ext_href={`https://mangadex.org/title/${$current.series.id}`}
 				>
@@ -26,20 +26,21 @@
 			{/if}
 		</div>
 	</div>
-	<div class="title">
+	<div class="title chapter">
 		<div class="icon">
 			<FileIcon size="24" />
 		</div>
-
-		{#if $current.title != undefined && $current.chapterNumber != undefined}
-			Chapter {$current.chapterNumber} - {$current.title}
-		{:else if $current.chapterNumber != undefined}
-			Chapter {$current.chapterNumber}
-		{:else if $current.isOneshot}
-			Oneshot
-		{:else}
-			??
-		{/if}
+		<div class="chapter">
+			{#if $current.title != undefined && $current.chapterNumber != undefined}
+				Chapter {$current.chapterNumber} - {$current.title}
+			{:else if $current.chapterNumber != undefined}
+				Chapter {$current.chapterNumber}
+			{:else if $current.isOneshot}
+				Oneshot
+			{:else}
+				??
+			{/if}
+		</div>
 	</div>
 </section>
 
@@ -67,5 +68,12 @@
 				color: var(--primary);
 			}
 		}
+	}
+	.chapter {
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
 	}
 </style>
