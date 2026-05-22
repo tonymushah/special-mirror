@@ -17,6 +17,7 @@
 			}}
 			icon={ZoomOutIcon}
 			label="Reset Zoom"
+			data-text-overflow="clip"
 		/>
 	</SettingsTransitComp>
 {/if}

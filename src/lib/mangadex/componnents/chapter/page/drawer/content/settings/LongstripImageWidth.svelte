@@ -13,7 +13,9 @@
 	<SettingsTransitComp>
 		<Slider.Root
 			class={cssMod.root}
-			bind:value={() => [$imageWidth], (i) => ($imageWidth = i.at(0) ?? 0)}
+			bind:value={
+				() => [$imageWidth], (i) => ($imageWidth = i.at(0) ?? 0)
+			}
 		>
 			<div class="label">
 				<Slider.Label>Image Width: &nbsp;</Slider.Label>
@@ -38,6 +40,9 @@
 		display: flex;
 		align-items: center;
 		flex-direction: row;
+		text-overflow: clip;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 	.slider-root {
 		position: relative;

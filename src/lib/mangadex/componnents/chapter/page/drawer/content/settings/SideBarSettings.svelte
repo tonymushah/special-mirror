@@ -1,6 +1,10 @@
 <script lang="ts">
 	import ButtonAccentOnlyLabel from "@mangadex/componnents/theme/buttons/ButtonAccentOnlyLabel.svelte";
-	import { registerListeners, sideBarActionType, toggleAction } from "./sidebar/action";
+	import {
+		registerListeners,
+		sideBarActionType,
+		toggleAction,
+	} from "./sidebar/action";
 	import { derived } from "svelte/store";
 	import { onMount } from "svelte";
 	import Icon from "./sidebar/Icon.svelte";
@@ -20,4 +24,10 @@
 	onMount(() => registerListeners());
 </script>
 
-<ButtonAccentOnlyLabel icon={Icon} variant="3" label={$label} onclick={toggleAction} />
+<ButtonAccentOnlyLabel
+	icon={Icon}
+	variant="3"
+	label={$label}
+	onclick={toggleAction}
+	data-text-overflow="clip"
+/>
