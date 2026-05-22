@@ -131,4 +131,9 @@
 	button:global([data-top-abit]):disabled {
 		transform: translateY(0px);
 	}
+	button:global([data-text-overflow="clip"]) {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: clip;
+	}
 </style>
