@@ -17,7 +17,7 @@
 				<Link
 					variant="base"
 					href={route("/mangadex/group/[id]", {
-						id: group.id
+						id: group.id,
 					})}
 					>{group.name}
 				</Link>
@@ -40,6 +40,12 @@
 			display: grid;
 			span.no-group {
 				font-style: italic;
+			}
+			li,
+			span.no-group {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 		}
 	}
