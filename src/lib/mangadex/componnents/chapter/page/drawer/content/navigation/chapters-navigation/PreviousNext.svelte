@@ -3,7 +3,7 @@
 	import { isLongStrip } from "../../../../contexts/currentChapterReadingMode";
 	import {
 		fireChapterNextEvent,
-		fireChapterPreviousEvent
+		fireChapterPreviousEvent,
 	} from "../../../../contexts/previousNextEventTarget";
 	import { ArrowLeftIcon, ArrowRightIcon } from "@lucide/svelte";
 	import { Direction as ReadingDirection } from "@mangadex/gql/graphql";
@@ -57,12 +57,12 @@
 	const variant = "2";
 </script>
 
-<ButtonAccent {variant} onclick={onPrevious}>
+<ButtonAccent {variant} onclick={onPrevious} data-text-overflow="clip">
 	<ArrowLeftIcon />
 </ButtonAccent>
 
 {@render children?.()}
 
-<ButtonAccent {variant} onclick={onNext}>
+<ButtonAccent {variant} onclick={onNext} data-text-overflow="clip">
 	<ArrowRightIcon />
 </ButtonAccent>
