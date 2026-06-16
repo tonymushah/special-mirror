@@ -1,6 +1,6 @@
 name: "on pull_request test"
 on:
-  pull_request:
+  push:
     branches: [main]
     # TODO only run the workflow if the pull request is not a draft
     paths-ignore:

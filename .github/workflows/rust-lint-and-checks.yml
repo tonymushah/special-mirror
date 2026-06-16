@@ -2,7 +2,9 @@ name: "rust lint and tests"
 permissions:
   contents: read
 on:
-  pull_request:
+  push:
+    branches:
+      - main
     paths:
       - "src-tauri/**"
       - "crates/**"
