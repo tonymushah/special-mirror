@@ -27,7 +27,7 @@ engineStrict: false
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: npm:@voidzero-dev/vite-plus-test@latest
-  vite-plus: latest
+  vite-plus: ^0.1.24
 peerDependencyRules:
   allowAny:
     - vite
@@ -35,3 +35,11 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
+minimumReleaseAgeExclude:
+  - ws@8.20.1
+  - brace-expansion@5.0.6
+  - shell-quote@1.8.4
+  - ws@8.21.0
+  - vite-plus@0.1.24
+  - js-yaml@4.1.2
+  - '@babel/core@7.29.1'
