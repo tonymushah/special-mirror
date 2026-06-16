@@ -54,25 +54,18 @@ libsqlite3-sys = { workspace = true, features = ["bundled"] }
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { version = "0.6", optional = true }
 
-[target."cfg(not(any(target_os = \"android\", target_os = \"ios\")))".dependencies.tauri-plugin-updater]
-workspace = true
-optional = true
-
 [dependencies.mangadex]
 workspace = true
 
 [features]
 # by default Tauri runs in production mode
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
-default = ["custom-protocol", "updater", "actix-single-runtime", "actix-multi-threaded"]
+default = ["custom-protocol", "actix-single-runtime", "actix-multi-threaded"]
 # this feature is used used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
 custom-protocol = ["tauri/custom-protocol"]
 
 no_bundle = ["custom-protocol", "actix-single-runtime", "actix-multi-threaded"]
-
-# tauri updater
-updater = ["tauri-plugin-updater"]
 
 # HotPath
 hotpath = ["dep:hotpath", "hotpath/hotpath", "mangadex/hotpath"]
