@@ -5,4 +5,3 @@ pub mod open_new_window;
 pub mod send_notification;
 pub mod sys_locale;
 pub mod toggle_decoration;
-pub mod updater;
