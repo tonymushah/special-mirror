@@ -3,7 +3,7 @@ rust-version = "1.93"
 license-file = "./LICENSE"
 authors = ["tonymushah tonymushahDev06@yahoo.com"]
 edition = "2024"
-repository = "https://github.com/tonymushah/special-eureka"
+repository = "https://codeberg.org/tonymushah/special-eureka"
 version = "0.2.4-9"
 
 [workspace]

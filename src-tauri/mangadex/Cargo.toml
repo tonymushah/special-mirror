@@ -72,13 +72,13 @@ non-exhaustive.workspace = true
 special-eureka-notification.workspace = true
 
 [dependencies.eureka-mmanager]
-git = "https://github.com/tonymushah/eureka-mmanager.git"
+git = "https://codeberg.org/tonymushah/eureka-mmanager.git"
 
 [dependencies.eureka-mmanager-core]
-git = "https://github.com/tonymushah/eureka-mmanager.git"
+git = "https://codeberg.org/tonymushah/eureka-mmanager.git"
 
 [dependencies.emdx]
-git = "https://github.com/tonymushah/eureka-mmanager.git"
+git = "https://codeberg.org/tonymushah/eureka-mmanager.git"
 optional = true
 
 [dependencies.mangadex-api-input-types]
