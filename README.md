@@ -1,6 +1,11 @@
 # Special Eureka
 
-[![build-test](https://github.com/tonymushah/special-eureka/actions/workflows/build.yaml/badge.svg)](https://github.com/tonymushah/special-eureka/actions/workflows/build.yaml)
+[![build-test](https://github.com/tonymushah/special-mirror/actions/workflows/build.yaml/badge.svg)](https://github.com/tonymushah/special-mirror/actions/workflows/build.yaml)
+
+> [!IMPORTANT]  
+> Special Eureka has moved to [Codeberg](https://codeberg.org/tonymushah/special-eureka).
+>
+> We only use Github for releases via [`tonymushah/special-mirror`](https://github.com/tonymushah/special-mirror)
 
 A desktop manga reader which support for :
 
@@ -114,7 +119,7 @@ If that's done, then let's get started.
 First, clone the repository
 
 ```bash
-git clone https://github.com/tonymushah/special-eureka.git
+git clone https://codeberg.org/tonymushah/special-eureka.git
 ```
 
 Second, install the frontend dependencies:
