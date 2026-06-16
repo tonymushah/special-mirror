@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: setup vite plus
-        uses: https://github.com/voidzero-dev/setup-vp/action.yml@v1
+        uses: https://github.com/voidzero-dev/setup-vp@v1
         with:
           node-version: 24
       - name: install pnpm
-        uses: https://github.com/pnpm/action-setup/action.yml@v6
+        uses: https://github.com/pnpm/action-setup@v6
         with:
           run_install: false
       - name: install deps
@@ -33,11 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: setup vite plus
-        uses: https://github.com/voidzero-dev/setup-vp/action.yml@v1
+        uses: https://github.com/voidzero-dev/setup-vp@v1
         with:
           node-version: 24
       - name: install pnpm
-        uses: https://github.com/pnpm/action-setup/action.yml@v6
+        uses: https://github.com/pnpm/action-setup@v6
         with:
           run_install: false
       - name: install deps
@@ -49,6 +49,6 @@ jobs:
     runs-on: tonymushah-fedora-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: https://github.com/dtolnay/rust-toolchain/action.yml@stable
+      - uses: https://github.com/dtolnay/rust-toolchain@stable
       - name: svelte checkes
         run: cargo fmt --check
