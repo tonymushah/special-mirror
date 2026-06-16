@@ -2,10 +2,10 @@
 	import AppTitle from "@special-eureka/core/components/AppTitle.svelte";
 	import haikeiRed from "@special-eureka/dashboard/haikei/layered-waves-haikei-red.svg";
 	import haikeiBlue from "@special-eureka/dashboard/haikei/layered-waves-haikei-blue.svg";
-	import haikeiYellow from "@special-eureka/dashboard/haikei/layered-waves-haikei-violet.svg";
 	import Sites from "./Sites.svelte";
 	import DevNotes from "./DevNotes.svelte";
-	import Updates from "./Updates.svelte";
+	// NOTE Updates are disabled because of the codeberg migration
+	// import Updates from "./Updates.svelte";
 </script>
 
 <AppTitle title="Welcome to Special Eureka" />
@@ -19,12 +19,6 @@
 <section class="dev-notes">
 	<div style:background-image={`url("${haikeiBlue}")`} class="haikei">
 		<DevNotes />
-	</div>
-</section>
-
-<section class="updates">
-	<div style:background-image={`url("${haikeiYellow}")`} class="haikei">
-		<Updates />
 	</div>
 </section>
 

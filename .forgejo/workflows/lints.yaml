@@ -1,0 +1,54 @@
+name: "Forgejo lints and tests"
+permissions:
+  contents: read
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+
+jobs:
+  check-fmt:
+    runs-on: [tonymushah-fedora-latest]
+    steps:
+      - uses: actions/checkout@v6
+      - name: setup vite plus
+        uses: https://github.com/voidzero-dev/setup-vp@v1
+        with:
+          node-version: 24
+      - name: install pnpm
+        uses: https://github.com/pnpm/action-setup@v6
+        with:
+          run_install: false
+      - name: install deps
+        run: vp install
+      - name: svelte checkes
+        run: vp fmt --check ./src
+  check-svelte:
+    needs: check-fmt
+    runs-on: tonymushah-fedora-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: setup vite plus
+        uses: https://github.com/voidzero-dev/setup-vp@v1
+        with:
+          node-version: 24
+      - name: install pnpm
+        uses: https://github.com/pnpm/action-setup@v6
+        with:
+          run_install: false
+      - name: install deps
+        run: pnpm install
+      - name: svelte checkes
+        run: vp run check
+  check-rs-fmt:
+    needs: check-fmt
+    runs-on: tonymushah-fedora-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: https://github.com/dtolnay/rust-toolchain@stable
+      - name: svelte checkes
+        run: cargo fmt --check
