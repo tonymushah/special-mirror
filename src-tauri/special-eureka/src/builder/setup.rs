@@ -12,9 +12,6 @@ type SetupResult = Result<(), Box<dyn std::error::Error>>;
 
 #[cfg_attr(feature = "hotpath", hotpath::measure)]
 pub fn setup<R: Runtime>(app: &mut App<R>) -> SetupResult {
-    #[cfg(all(desktop, feature = "updater"))]
-    app.handle()
-        .plugin(tauri_plugin_updater::Builder::new().build())?;
     app.manage(LastFocusedWindow::<R>::default());
     if let Some(system) = System::try_current() {
         log::debug!("has sys!");
