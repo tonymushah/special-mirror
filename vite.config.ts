@@ -4,6 +4,15 @@ import { kitRoutes } from "vite-plugin-kit-routes";
 import { defineConfig, searchForWorkspaceRoot } from "vite-plus";
 
 export default defineConfig({
+	staged: {
+		"src/**/*.{svelte,.ts,.js}": "vp check --fix src/",
+		"package.json": "vp check --fix package.json",
+		"pnpm-workspace.yaml": "vp check --fix pnpm-workspace.yaml",
+		"svelte.config.js": "vp check --fix svelte.config.js",
+		"vite.config.ts": "vp check --fix vite.config.ts",
+		"graphql.config.ts": "vp check --fix graphql.config.ts",
+		"{src-tauri,crates}/**/*.rs": "vp run rust:check:fix"
+	},
 	lint: { options: { typeAware: true, typeCheck: true } },
 	fmt: {
 		useTabs: true,
