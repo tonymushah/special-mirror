@@ -41,11 +41,12 @@
 		[currentChapterPage, isFromIntersector],
 		([$page, $fromInter]) => {
 			return [$page, $fromInter] satisfies [number, boolean];
-		}
+		},
 	);
 	function toCurrentPage(page: number) {
-		//console.log(page);
-		const current = widestrip_root?.querySelector(`div[data-page=\"${page}\"]`);
+		const current = widestrip_root?.querySelector(
+			`div[data-page="${page}"]`,
+		);
 		if (current != null) {
 			current.scrollIntoView();
 		}
@@ -68,7 +69,14 @@
 		oncontextmenu?: OnReadingModeContextMenu;
 	}
 
-	let { innerOverflow = true, top, before, after, bottom, oncontextmenu }: Props = $props();
+	let {
+		innerOverflow = true,
+		top,
+		before,
+		after,
+		bottom,
+		oncontextmenu,
+	}: Props = $props();
 
 	let toObserve: Element[] = $state([]);
 	// TODO Add support with the intersection observer API
@@ -77,7 +85,9 @@
 			(entries) => {
 				// console.debug(entries.length);
 				const entry = entries.reduce((previous, current) => {
-					if (previous.intersectionRatio < current.intersectionRatio) {
+					if (
+						previous.intersectionRatio < current.intersectionRatio
+					) {
 						return current;
 					} else {
 						return previous;
@@ -89,7 +99,9 @@
 			} else {*/
 				const page = entry.target.getAttribute("data-page");
 				if (page != null) {
-					if (entry.isIntersecting /*&& entry.intersectionRatio > 0*/) {
+					if (
+						entry.isIntersecting /*&& entry.intersectionRatio > 0*/
+					) {
 						fromIntersector(() => {
 							currentChapterPage.set(Number(page));
 						});
@@ -98,9 +110,9 @@
 				//}
 			},
 			{
-				root: widestrip_root
-			}
-		)
+				root: widestrip_root,
+			},
+		),
 	);
 	$effect(() => {
 		toObserve.forEach((e) => {
@@ -131,14 +143,14 @@
 					interObserver.observe(entry);
 				});
 			}, 5);
-		})
+		}),
 	);
 	const mount: Action = (node) => {
 		toObserve = [...toObserve, node];
 		return {
 			destroy() {
 				toObserve = toObserve.filter((e) => node != e);
-			}
+			},
 		};
 	};
 	onDestroy(() => {
