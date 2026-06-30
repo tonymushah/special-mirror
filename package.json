@@ -86,7 +86,7 @@
 		"flag-icons": "^7.5.0",
 		"hotkeys-js": "^4.0.4",
 		"medium-zoom": "^1.1.0",
-		"mizuki-urql-adapter": "^1.1.1",
+		"mizuki-urql-adapter": "=1.1.0",
 		"panzoom": "^9.4.4",
 		"runed": "^0.37.1",
 		"svelte-awesome-color-picker": "^4.1.3",
