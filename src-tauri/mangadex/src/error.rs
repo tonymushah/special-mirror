@@ -199,6 +199,8 @@ pub enum Error {
     FetchUserAttributes,
     #[error("Expect {} got None", .0)]
     ShouldExpect(String),
+    #[error("The plugin config `mangadex-desktop-api` is not found")]
+    PluginConfigNotFound,
 }
 
 impl Error {
