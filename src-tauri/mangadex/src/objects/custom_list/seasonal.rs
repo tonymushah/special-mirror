@@ -1,12 +1,10 @@
 use mangadex_api::MangaDexClient;
 use mangadex_api::Result;
 use mangadex_api_schema_rust::v5::CustomListData;
-use reqwest::Client;
 use serde::de::IntoDeserializer;
 use serde::{Deserialize, Serialize};
 use tauri::AppHandle;
 use tauri::Runtime;
-use url::Url;
 use uuid::Uuid;
 
 use crate::utils::traits_utils::MangadexTauriManagerExt;
