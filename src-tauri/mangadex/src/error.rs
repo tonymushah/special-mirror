@@ -199,6 +199,14 @@ pub enum Error {
     FetchUserAttributes,
     #[error("Expect {} got None", .0)]
     ShouldExpect(String),
+    #[error("The plugin config `mangadex-desktop-api` is not found")]
+    PluginConfigNotFound,
+    #[error("`seasonal_json_url` is not defined or invalid")]
+    SeasonalJsonUrlNotFound,
+    #[error("serde_json::Error: {}", .0)]
+    SerdeJson(#[from] serde_json::Error),
+    #[error("`staff_pick_url` is not defined or invalid")]
+    StaffPickJsonUrlNotFound,
 }
 
 impl Error {

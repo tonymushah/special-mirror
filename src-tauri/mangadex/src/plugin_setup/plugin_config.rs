@@ -41,4 +41,6 @@ pub struct PluginConfig {
     pub(crate) ratelimit: RateLimitConfig,
     #[serde(default)]
     pub(crate) max_concurrency: Option<usize>,
+    pub(crate) seasonal_json_url: Option<url::Url>,
+    pub(crate) staff_pick_url: Option<url::Url>,
 }

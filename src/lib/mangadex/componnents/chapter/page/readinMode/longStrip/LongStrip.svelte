@@ -2,7 +2,7 @@
 	import { derived, writable, type Readable } from "svelte/store";
 	import {
 		getLongStripImagesWidthContext,
-		getLongStripImagesWidthContextWritable
+		getLongStripImagesWidthContextWritable,
 	} from "./utils/context/longstrip_images_width";
 	import { onMount } from "svelte";
 	import { getChapterCurrentPageContext } from "../../contexts/currentPage";
@@ -40,8 +40,6 @@
 		isFromIntersector.set(true);
 		try {
 			return fn();
-		} catch (error) {
-			throw error;
 		} finally {
 			delay(() => {
 				isFromIntersector.set(false);
@@ -53,16 +51,18 @@
 		[currentChapterPage, isFromIntersector],
 		([$page, $fromInter]) => {
 			return [$page, $fromInter] satisfies [number, boolean];
-		}
+		},
 	);
 	onMount(() => {
 		return currentChapter.subscribe(([page, fromInter]) => {
 			if (!shouldIgnore && !fromInter) {
 				if (longstrip_root != undefined) {
-					const current = longstrip_root.querySelector(`div[data-page=\"${page}\"]`);
+					const current = longstrip_root.querySelector(
+						`div[data-page="${page}"]`,
+					);
 					if (current != null) {
 						current.scrollIntoView({
-							block: "nearest"
+							block: "nearest",
 						});
 					}
 				}
@@ -100,15 +100,15 @@
 		},
 		{
 			root: longstrip_root,
-			threshold: 0.1
-		}
+			threshold: 0.1,
+		},
 	);
 	const mount: Action = (node) => {
 		interObserver.observe(node);
 		return {
 			destroy() {
 				interObserver.unobserve(node);
-			}
+			},
 		};
 	};
 	const widthWritable = getLongStripImagesWidthContextWritable();
