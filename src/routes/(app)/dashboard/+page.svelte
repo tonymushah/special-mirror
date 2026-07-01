@@ -46,8 +46,8 @@
 		background-color: #bb004d;
 		color: #ffe4e4;
 	}
-	.updates {
+	/* .updates {
 		background-color: #004cbb;
 		color: #ffe4e4;
-	}
+	} */
 </style>
