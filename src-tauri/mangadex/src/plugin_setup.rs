@@ -3,7 +3,7 @@ mod export_sdl;
 mod init_client_state;
 mod init_states;
 mod init_watches_states;
-mod plugin_config;
+pub mod plugin_config;
 mod register_mangadex_client;
 mod register_uri_scheme_protocol;
 
