@@ -201,6 +201,8 @@ pub enum Error {
     ShouldExpect(String),
     #[error("The plugin config `mangadex-desktop-api` is not found")]
     PluginConfigNotFound,
+    #[error("`seasonal_json_url` is not defined or invalid")]
+    SeasonalJsonUrlNotFound,
 }
 
 impl Error {
