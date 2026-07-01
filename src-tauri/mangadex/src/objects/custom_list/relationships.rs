@@ -104,7 +104,7 @@ impl CustomListRelationships {
                                 .unwrap_or(mangadex_api_types_rust::ContentRating::Safe),
                         )
                     } else {
-                        false
+                        true
                     };
 
                     let excluded_original_languages =
