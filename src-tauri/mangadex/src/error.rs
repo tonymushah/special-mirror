@@ -203,6 +203,8 @@ pub enum Error {
     PluginConfigNotFound,
     #[error("`seasonal_json_url` is not defined or invalid")]
     SeasonalJsonUrlNotFound,
+    #[error("serde_json::Error: {}", .0)]
+    SerdeJson(#[from] serde_json::Error),
 }
 
 impl Error {
