@@ -44,11 +44,7 @@ impl HomeQueries {
     ) -> crate::error::wrapped::Result<CustomList> {
         let client = get_mangadex_client_from_graphql_context::<tauri::Wry>(ctx)?;
         let watches = get_watches_from_graphql_context::<tauri::Wry>(ctx)?;
-        let res = {
-            let arc_cli = client.get_http_client();
-            let cli = arc_cli.read().await;
-            StaffPicksData::get(&cli.client).await?
-        };
+        let res = StaffPicksData::get(ctx.get_app_handle::<tauri::Wry>()?).await?;
         Ok({
             let data: CustomList = res.get_result(&client).await?.data.into();
             let _ = watches.custom_list.send_data(data.clone());
