@@ -12,8 +12,8 @@
 			"sdlExportPath": "../../src/lib/mangadex/schemas.graphqls",
 			"userAgent": "special-eureka/{{current_version}}",
 			"timeout": "15s",
-			"seasonal_json_url": "https://codeberg.org/tonymushah/special-eureka/raw/branch/main/public/mangadex/json/seasonal.json",
-			"staff_pick_url": "https://codeberg.org/tonymushah/special-eureka/raw/branch/main/public/mangadex/json/staff-pics.json"
+			"seasonalJsonUrl": "https://codeberg.org/tonymushah/special-eureka/raw/branch/main/public/mangadex/json/seasonal.json",
+			"staffPickUrl": "https://codeberg.org/tonymushah/special-eureka/raw/branch/main/public/mangadex/json/staff-pics.json"
 		},
 		"deep-link": {
 			"desktop": {
