@@ -205,6 +205,8 @@ pub enum Error {
     SeasonalJsonUrlNotFound,
     #[error("serde_json::Error: {}", .0)]
     SerdeJson(#[from] serde_json::Error),
+    #[error("`staff_pick_url` is not defined or invalid")]
+    StaffPickJsonUrlNotFound,
 }
 
 impl Error {
