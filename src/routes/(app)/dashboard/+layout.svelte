@@ -99,7 +99,7 @@
 				<button
 					class="github"
 					onclick={() => {
-						openUrl("https://github.com/tonymushah/special-eureka");
+						openUrl("https://github.com/tonymushah/special-mirror");
 					}}
 				>
 					<GithubIcon />
