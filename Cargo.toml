@@ -29,7 +29,8 @@ reqwest = { version = "0.13", default-features = false, features = ["gzip", "zst
 bytes = "1"
 async-graphql = "7"
 time = "0.3"
-mizuki = "1"
+mizuki = { git = 'https://codeberg.org/tonymushah/mizuki.git', branch = "feat-remodel-subscriptions" }
+# mizuki = "1"
 mizuki-build = "1"
 url = "2.5"
 actix = "0.13"
