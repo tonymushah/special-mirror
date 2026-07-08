@@ -7,10 +7,13 @@
 	import NothingToShow from "@mangadex/componnents/search/content/NothingToShow.svelte";
 	import type { UserLibrarySectionParam } from "@mangadex/gql/graphql";
 	import type AbstractSearchResult from "@mangadex/utils/searchResult/AbstractSearchResult";
-	import { createInfiniteQuery, type CreateInfiniteQueryOptions } from "@tanstack/svelte-query";
+	import {
+		createInfiniteQuery,
+		type CreateInfiniteQueryOptions,
+	} from "@tanstack/svelte-query";
 	import { Client, getContextClient } from "@urql/svelte";
 	import {
-		debounce
+		debounce,
 		// last, range
 	} from "es-toolkit/compat";
 	import { onDestroy, onMount } from "svelte";
@@ -25,15 +28,18 @@
 	interface Props {
 		executeSearchQuery: (
 			client: Client,
-			param?: UserLibrarySectionParam
+			param?: UserLibrarySectionParam,
 		) => Promise<AbstractSearchResult<MangaListContentItemProps>>;
 		section: string;
 	}
 
 	let { executeSearchQuery, section }: Props = $props();
-	let params = $derived<UserLibrarySectionParam>({
+	let baseParams = $state<UserLibrarySectionParam>({
 		hasAvailableChapters: true,
-		limit: $pageLimit
+	});
+	let params = $derived<UserLibrarySectionParam>({
+		...baseParams,
+		limit: $pageLimit,
 	});
 	interface InfiniteQueryData {
 		data: MangaListContentItemProps[];
@@ -45,7 +51,12 @@
 		return {
 			queryKey: ["user", "library", section, params],
 			initialPageParam: [params],
-			getNextPageParam(lastPage, allPages, [lastPageParam], allPageParams) {
+			getNextPageParam(
+				lastPage,
+				allPages,
+				[lastPageParam],
+				allPageParams,
+			) {
 				const next_offset = lastPage.limit + lastPage.offset;
 				if (next_offset > lastPage.total) {
 					return null;
@@ -54,8 +65,8 @@
 						{
 							...lastPageParam,
 							limit: lastPage.limit,
-							offset: next_offset
-						}
+							offset: next_offset,
+						},
 					];
 				}
 			},
@@ -63,10 +74,15 @@
 				const res = await executeSearchQuery(client, p);
 				return {
 					data: res.data,
-					...res.paginationData
+					...res.paginationData,
 				};
 			},
-			getPreviousPageParam(firstPage, allPages, [firstPageParam], allPageParams) {
+			getPreviousPageParam(
+				firstPage,
+				allPages,
+				[firstPageParam],
+				allPageParams,
+			) {
 				const next_offset = firstPage.limit - firstPage.offset;
 				if (next_offset < 0) {
 					return null;
@@ -75,11 +91,11 @@
 						{
 							...firstPageParam,
 							limit: firstPage.limit,
-							offset: next_offset
-						}
+							offset: next_offset,
+						},
 					];
 				}
-			}
+			},
 		} satisfies CreateInfiniteQueryOptions<
 			InfiniteQueryData,
 			Error,
@@ -93,7 +109,7 @@
 	onMount(() =>
 		defaultContentProfile.subscribe(() => {
 			infiniteQuery.refetch();
-		})
+		}),
 	);
 	let titles = $derived.by(() => {
 		const result = infiniteQuery;
@@ -137,8 +153,8 @@
 			}
 		},
 		{
-			threshold: 1.0
-		}
+			threshold: 1.0,
+		},
 	);
 	let to_obserce_bind: HTMLElement | undefined = $state(undefined);
 	$effect(() => {
@@ -157,7 +173,7 @@
 <MangaList list={titles}>
 	{#snippet additionalContent()}
 		<div class="additional-content">
-			<LibContentFilter {params} />
+			<LibContentFilter bind:params={baseParams} />
 		</div>
 	{/snippet}
 </MangaList>

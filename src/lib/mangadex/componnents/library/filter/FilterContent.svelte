@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { UserLibrarySectionParam } from "@mangadex/gql/graphql";
-	import { derived, get, toStore, writable, type Writable } from "svelte/store";
+	import { toStore, writable, type Writable } from "svelte/store";
 	import SortBySelector from "./SortBySelector.svelte";
 	import { initMangaSearchPublicationStatusContextStore } from "@mangadex/componnents/manga/search/form/filter/contexts/publicationStatus";
 	import PublicationStatus from "@mangadex/componnents/manga/search/form/filter/content/PublicationStatus.svelte";
@@ -10,53 +10,53 @@
 	import {
 		initMangaSearchAuthorArtistsOptions,
 		initMangaSearchAuthorSearchFetcher,
-		type AuthorArtistOptions
+		type AuthorArtistOptions,
 	} from "@mangadex/componnents/manga/search/form/filter/contexts/authorArtist";
 	import gqlAuthorFetcher from "@mangadex/componnents/manga/search/form/filter/contexts/authorArtist/gql";
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import AuthorArtists from "@mangadex/componnents/manga/search/form/filter/content/AuthorArtists.svelte";
 	import { route } from "$lib/ROUTES";
+	import { delay } from "es-toolkit";
 
 	interface Props {
 		params: UserLibrarySectionParam;
 	}
 
 	let { params = $bindable() }: Props = $props();
-	const publicationStatus = derived(
-		toStore(() => params),
-		(params) => params.publicationStatus ?? []
-	);
-	initMangaSearchPublicationStatusContextStore({
-		subscribe: publicationStatus.subscribe,
-		set(value) {
+	const publicationStatus = toStore(
+		() => params.publicationStatus ?? [],
+		(value) => {
 			params.publicationStatus = value;
 		},
-		update(updater) {
-			params.publicationStatus = updater(get(publicationStatus));
-		}
-	});
-	const year = derived(
-		toStore(() => params),
-		(params) => params.year ?? null
 	);
-	initMangaSearchYearContextStore({
-		subscribe: year.subscribe,
-		set(value) {
-			params.year = value;
+
+	initMangaSearchPublicationStatusContextStore(publicationStatus);
+	const year = toStore(
+		() => params.year ?? null,
+		(y) => {
+			params.year = y;
 		},
-		update(updater) {
-			params.year = updater(get(year));
-		}
-	});
+	);
+
+	initMangaSearchYearContextStore(year);
 	initMangaSearchAuthorSearchFetcher(gqlAuthorFetcher);
 	// TODO Find a way to sync this proprely
-	const authorArtistsParam = writable<AuthorArtistOptions>({ artists: [], authors: [] });
-	onMount(() =>
-		authorArtistsParam.subscribe(({ authors, artists }) => {
+	const authorArtistsParam = writable<AuthorArtistOptions>({
+		artists: [],
+		authors: [],
+	});
+	let unsub: (() => void) | undefined = undefined;
+	onMount(async () => {
+		await delay(10);
+
+		unsub = authorArtistsParam.subscribe(({ authors, artists }) => {
 			params.authors = authors.map((author) => author.id);
 			params.artists = artists.map((artist) => artist.id);
-		})
-	);
+		});
+	});
+	onDestroy(() => {
+		unsub?.();
+	});
 	initMangaSearchAuthorArtistsOptions(authorArtistsParam);
 	const availableChapterCheckId = v4();
 	const excludeContentProfileId = v4();
@@ -97,19 +97,23 @@
 		<span class="lazy-af"> because I was lazy to implement that :) </span>
 		<br />
 		Please change
-		<a href={route("/mangadex/settings/content-profiles")} class="basic-link">
+		<a
+			href={route("/mangadex/settings/content-profiles")}
+			class="basic-link"
+		>
 			your content profile
 		</a> instead.
 	</p>
 	<p>
 		<span class="lazy-af">
-			Tony Mushah: To honest, I could do it (really). It just that it doesn't make sense to me
-			to add those complex filter thingy here.
+			Tony Mushah: To honest, I could do it (really). It just that it
+			doesn't make sense to me to add those complex filter thingy here.
 		</span>
 	</p>
 	<p class="lazy-af">
-		Also, the author and artists are not saved proprely when this dialog is closed, but it still
-		filter though. I am not planning to fix anytime soon. Maybe in future.
+		Also, the author and artists are not saved proprely when this dialog is
+		closed, but it still filter though. I am not planning to fix anytime
+		soon. Maybe in future.
 	</p>
 </section>
 
@@ -148,6 +152,10 @@
 	}
 	.lazy-af {
 		font-style: italic;
-		color: color-mix(in srgb, var(--main-background) 70%, var(--text-color) 30%);
+		color: color-mix(
+			in srgb,
+			var(--main-background) 70%,
+			var(--text-color) 30%
+		);
 	}
 </style>
