@@ -3,14 +3,12 @@
 	import { makeScroll, preventScroll } from "../layout/scrollElement";
 	import { Filter } from "@lucide/svelte";
 	import type { UserLibrarySectionParam } from "@mangadex/gql/graphql";
-	import type { Writable } from "svelte/store";
 	import { XIcon as CloseIcon } from "@lucide/svelte";
 	import FilterContent from "./filter/FilterContent.svelte";
 	import { Dialog } from "@ark-ui/svelte/dialog";
 	import { Portal } from "@ark-ui/svelte";
 	import cssDialogMod from "@mangadex/componnents/theme/dialog/dialog.module.scss";
 	import cssMod from "./lib-content-filter.module.scss";
-	import MangaDexThemeProvider from "../theme/MangaDexThemeProvider.svelte";
 	import MangaDexVarThemeProvider from "../theme/MangaDexVarThemeProvider.svelte";
 
 	interface Props {
@@ -51,7 +49,9 @@
 								>
 							</div>
 							<div class="close">
-								<Dialog.CloseTrigger class={cssDialogMod.closeButton}>
+								<Dialog.CloseTrigger
+									class={cssDialogMod.closeButton}
+								>
 									<CloseIcon class={cssMod.icon} />
 								</Dialog.CloseTrigger>
 							</div>
