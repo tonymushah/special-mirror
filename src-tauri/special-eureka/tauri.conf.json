@@ -4,8 +4,7 @@
 		"beforeBuildCommand": "pnpm run vite:build",
 		"beforeDevCommand": "pnpm run vite:dev",
 		"frontendDist": "../../build",
-		"devUrl": "http://localhost:9305",
-		"beforeBundleCommand": "cargo make upx-release"
+		"devUrl": "http://localhost:9305"
 	},
 	"plugins": {
 		"mangadex-desktop-api": {
