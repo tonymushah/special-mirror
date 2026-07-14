@@ -8,7 +8,7 @@ jobs:
   get_release_version:
     runs-on: [tonymushah-fedora-latest]
     container:
-      image: alpine:3
+      image: node:26-alpine
     env:
        FORGEJO_TOKEN: ${{ secrets.BUILD_APP_TOKEN }}
        REPO_OWNER: ${{ forgejo.repository_owner }}
