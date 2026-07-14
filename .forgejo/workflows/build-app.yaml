@@ -38,7 +38,7 @@ jobs:
       - name: create release 
         id: create-release
         run: |
-            EUREKA_VERSION=$(cat Cargo.toml | /usr/local/bin/dasel -i toml workspace.package.version)
+            EUREKA_VERSION=$(cat Cargo.toml | dasel -i toml workspace.package.version)
             fj release create -B main -d -T $(echo $EUREKA_VERSION) $EUREKA_VERSION 
             set -x
             echo "release-name=$(echo $EUREKA_VERSION)" >> $FORGEJO_OUTPUT
