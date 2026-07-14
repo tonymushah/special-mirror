@@ -107,10 +107,6 @@ slow-build-linux-x86:
 slow-build-linux-aarch64:
     pnpm tauri build -f mimalloc --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
 
-[linux]
-_setup-gnu-llvm-path:
-    PATH := "{{ gnu_llvm_path }}/bin:$PATH"
-
 # Slowly build the app for x86 windows on Linux by using `gnu-llvm`
 #
 # Require `llvm-gnu` and `nsis` to be installed.
@@ -119,8 +115,8 @@ _setup-gnu-llvm-path:
 [group("linux-windows")]
 [group("slow-build")]
 [linux]
-slow-build-linux-x86-windows-gnu-llvm: _setup-gnu-llvm-path
-    pnpm tauri build -f mimalloc -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
+slow-build-linux-x86-windows-gnu-llvm:
+    PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
 
 # Slowly build the app for x86 windows on Linux by using `cargo-xwin`
 [group("build")]
@@ -138,8 +134,8 @@ slow-build-linux-x86-windows-xwin:
 [group("linux-windows")]
 [group("slow-build")]
 [linux]
-slow-build-linux-aarch64-windows-gnu-llvm: _setup-gnu-llvm-path
-    pnpm tauri build -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
+slow-build-linux-aarch64-windows-gnu-llvm:
+    PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
 
 # Slowly build the app for aarch64 windows on Linux by using `cargo-xwin`
 [group("build")]
@@ -147,3 +143,16 @@ slow-build-linux-aarch64-windows-gnu-llvm: _setup-gnu-llvm-path
 [linux]
 slow-build-linux-aarch64-windows-xwin:
     pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile
+
+# Donwload llvm-mingw and set the `GNU_LLVM_PATH`
+[env("LLVM_MINGW_BASE_DIR", "llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64")]
+[env("LLVM_MINGW_DONWLOAD_PATH", "/tmp")]
+[env("LLVM_MINGW_DOWNLOAD_URL", "https://github.com/mstorsjo/llvm-mingw/releases/download/20260616/llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64.tar.xz")]
+[linux]
+download-set-gnu_llvm_path:
+    wget -O "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw.tar.xz" "$(echo $LLVM_MINGW_DOWNLOAD_URL)"	
+    @echo "Downloaded"
+    tar -xf "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw.tar.xz" -C "$(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)"
+    echo "$(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)" >> "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file"
+    @echo "Exported llvm-gnu to $(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file."
+    @echo "Run 'cat \"$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file\"' to show the path."
