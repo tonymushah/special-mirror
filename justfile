@@ -2,7 +2,8 @@ set minimum-version := "1.56.0"
 
 set lazy
 
-gnu_llvm_path := env('GNU_LLVM_PATH')
+gnu_llvm_path := env('GNU_LLVM_PATH', '.gnu-llvm/llvm-mingw')
+app_version := env("APP_VERSION", '0.2.4')
 
 [group("utils")]
 cloc-project:
@@ -52,6 +53,11 @@ dev-jemalloc:
 build:
     pnpm tauri build
 
+[group("build")]
+[group("slow-build")]
+slow-build:
+    pnpm tauri build -- --profile release-slow-compile
+
 test-js:
     pnpm run test:integration && npm run test:unit
 
@@ -98,14 +104,18 @@ slow-build-no-bundle-next: vite-build
 [group("slow-build")]
 [linux]
 slow-build-linux-x86:
-    pnpm tauri build -f mimalloc --target x86_64-unknown-linux-gnu -- --profile release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build -f mimalloc,http3 --target x86_64-unknown-linux-gnu -- --profile release-slow-compile
+    cd target/x86_64-unknown-linux-gnu/release-slow-compile
+    tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" special-eureka 
 
 # Slowly build the app for aarch64 linux
 [group("build")]
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64:
-    PKG_CONFIG_SYSROOT_DIR=/ pnpm tauri build -f mimalloc -r cargo-zigbuild --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
+    pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
+    cd target/aarch64-unknown-linux-gnu/release-slow-compile
+    tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-aarch64-linux-portable.tar.xz" special-eureka 
 
 # Slowly build the app for x86 windows on Linux by using `gnu-llvm`
 #
@@ -116,7 +126,9 @@ slow-build-linux-aarch64:
 [group("slow-build")]
 [linux]
 slow-build-linux-x86-windows-gnu-llvm:
-    PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable' PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
+    cd target/x86_64-pc-windows-gnullvm/release-slow-compile
+    zip -r "bundle/portable/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Slowly build the app for x86 windows on Linux by using `cargo-xwin`
 [group("build")]
@@ -125,6 +137,8 @@ slow-build-linux-x86-windows-gnu-llvm:
 [linux]
 slow-build-linux-x86-windows-xwin:
     pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target x86_64-pc-windows-msvc -- --profile release-slow-compile
+    cd target/x86_64-pc-windows-msvc/release-slow-compile
+    zip -r "bundle/portable/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Slowly build the app for aarch64 windows on Linux by using `gnu-llvm`
 #
@@ -136,6 +150,8 @@ slow-build-linux-x86-windows-xwin:
 [linux]
 slow-build-linux-aarch64-windows-gnu-llvm:
     PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
+    cd target/aarch64-pc-windows-gnullvm/release-slow-compile
+    zip -r "bundle/portable/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Slowly build the app for aarch64 windows on Linux by using `cargo-xwin`
 [group("build")]
@@ -143,22 +159,46 @@ slow-build-linux-aarch64-windows-gnu-llvm:
 [linux]
 slow-build-linux-aarch64-windows-xwin:
     pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile
+    cd target/aarch64-pc-windows-msvc/release-slow-compile
+    zip -r "bundle/portable/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
-# Donwload llvm-mingw and set the `GNU_LLVM_PATH`
+# Donwload llvm-mingw to normally .gnu-llvm/llvm-mingw
 [env("LLVM_MINGW_BASE_DIR", "llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64")]
-[env("LLVM_MINGW_DONWLOAD_PATH", "/tmp")]
+[env("LLVM_MINGW_DONWLOAD_PATH", ".gnu-llvm")]
 [env("LLVM_MINGW_DOWNLOAD_URL", "https://github.com/mstorsjo/llvm-mingw/releases/download/20260616/llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64.tar.xz")]
+[group("build")]
+[group("utils")]
 [linux]
-download-set-gnu_llvm_path:
+download-gnu-llvm:
     wget -O "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw.tar.xz" "$(echo $LLVM_MINGW_DOWNLOAD_URL)"	
     @echo "Downloaded"
-    tar -xf "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw.tar.xz" -C "$(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)"
-    echo "$(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)" >> "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file"
-    @echo "Exported llvm-gnu to $(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file."
-    @echo "Run 'cat \"$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file\"' to show the path."
+    rm -rf "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw"
+    mkdir -p "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw"
+    tar -xf "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw.tar.xz" -C "$(echo $LLVM_MINGW_DONWLOAD_PATH)"
+    mv $(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)/* $(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw
+    rmdir $(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)
+    @echo "Downloaded llvm-mingw to \"$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw\" to show the path."
 
 [group("build")]
 [group("slow-build")]
 [linux]
-slow-build-all: slow-build-linux-aarch64 slow-build-linux-aarch64-windows-gnu-llvm slow-build-linux-x86 slow-build-linux-x86-windows-gnu-llvm
-    @echo "Built all"
+slow-build-all-x86_64: slow-build-linux-x86 slow-build-linux-x86-windows-gnu-llvm
+    @echo "Built all x86_64 linux and windows (gnu) targets"
+
+[group("build")]
+[group("slow-build")]
+[linux]
+slow-build-all-aarch64: slow-build-linux-aarch64 slow-build-linux-aarch64-windows-gnu-llvm
+    @echo "Built all x linux and windows (gnu) targets"
+
+[group("build")]
+[group("utils")]
+[linux]
+install-cross:
+    cargo install cross --git https://github.com/cross-rs/cross#64b5bb4d
+
+[group("build")]
+[group("utils")]
+[linux]
+install-cargo-xwin:
+    cargo install cargo-xwin
