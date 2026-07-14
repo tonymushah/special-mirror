@@ -31,9 +31,6 @@
 			"deb": {
 				"depends": []
 			},
-			"appimage": {
-				"bundleMediaFramework": false
-			},
 			"rpm": {
 				"epoch": 0,
 				"files": {},
