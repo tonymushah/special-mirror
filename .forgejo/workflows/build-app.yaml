@@ -1,0 +1,199 @@
+name: Build app
+permissions:
+  contents: read
+on:
+  workflow_dispatch:
+  	
+
+jobs:
+  get_release_version:
+    runs-on: [tonymushah-fedora-latest]
+    container:
+      image: alpine:3
+    env:
+       FORGEJO_TOKEN: ${{ secrets.BUILD_APP_TOKEN }}
+       REPO_OWNER: ${{ forgejo.repository_owner }}
+       CURRENT_REPO: ${{ forgejo.repository }}
+    outputs:
+       release-name: ${{ steps.create-release.outputs.release-name }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
+        with:
+          ref: 'main'
+      - name: install curl
+        run: 
+            sudo apk add curl -y
+      - name: setup dazel
+        run: |
+            curl -sSLf "$(curl -sSLf https://api.github.com/repos/tomwright/dasel/releases/latest | grep browser_download_url | grep linux_amd64 | grep -v .gz | cut -d\" -f 4)" -L -o dasel && chmod +x dasel 
+            mv ./dasel /usr/local/bin/dasel
+      - name: install rust
+        run: |
+             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable
+      - name: install forgejo cli
+        run: |
+           cargo install --locked forgejo-cli
+      - name: setup forgejo auth
+        run: |
+            fj auth add-key "$(echo $FORGEJO_OWNER)" $(echo $FORGEJO_TOKEN)
+      - name: create release 
+        id: create-release
+        run: |
+            EUREKA_VERSION=$(cat Cargo.toml | /usr/local/bin/dasel -i toml workspace.package.version)
+            fj release create -B main -d -T $(echo $EUREKA_VERSION) $EUREKA_VERSION 
+            set -x
+            echo "release-name=$(echo $EUREKA_VERSION)" >> $FORGEJO_OUTPUT
+  build_for_linux:
+    needs: get_release_version
+    runs-on: [tonymushah-fedora-latest]
+    container:
+      image: ubuntu:24.04
+    env:
+       FORGEJO_TOKEN: ${{ secrets.BUILD_APP_TOKEN }}
+       REPO_OWNER: ${{ forgejo.repository_owner }}
+       CURRENT_REPO: ${{ forgejo.repository }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
+        with:
+          ref: 'main'
+      - name: install dependencies
+        run: |
+          sudo apt update;
+          sudo apt install -y \
+            build-essential \
+            procps \
+            curl \
+            wget \
+            file \
+            libssl-dev \
+            libgtk-3-dev \
+            libappindicator3-dev \
+            xdg-utils \
+            librsvg2-dev;
+          sudo apt install -y \
+            libwebkit2gtk-4.1-0=2.44.0-2 \
+            libwebkit2gtk-4.1-dev=2.44.0-2 \
+            libjavascriptcoregtk-4.1-0=2.44.0-2 \
+            libjavascriptcoregtk-4.1-dev=2.44.0-2 \
+            gir1.2-javascriptcoregtk-4.1=2.44.0-2 \
+            gir1.2-webkit2-4.1=2.44.0-2;
+      - name: install rust
+        run: |
+             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable
+      - name: install forgejo cli
+        run: |
+           cargo install --locked forgejo-cli
+      - name: setup forgejo auth
+        run: |
+            fj auth add-key "$(echo $FORGEJO_OWNER)" $(echo $FORGEJO_TOKEN)
+      - name: setup just 
+        run: |
+            cargo install --locked just
+      - name: install app deps
+        run: |
+            just setup
+      - name: build app
+        run: |
+            just slow-build-linux-x86
+      - name: Send the release assets x86_64 to the current release
+        run: |
+            set -x
+            fj release assets create 
+            	"$(echo $RELEASE_NAME)" \
+            	"target/x86_64-unknown-linux-gnu/release-slow-compile/bundle/deb/Special Eureka_$(echo $RELEASE_NAME)_amd64.deb"
+            fj release assets create 
+            	"$(echo $RELEASE_NAME)" \
+            	"target/x86_64-unknown-linux-gnu/release-slow-compile/bundle/rpm/Special Eureka-$(echo $RELEASE_NAME)-1_amd64.rpm"
+            fj release assets create 
+            	"$(echo $RELEASE_NAME)" \
+            	"target/x86_64-unknown-linux-gnu/release-slow-compile/bundle/appimage/Special Eureka_$(echo $RELEASE_NAME)_amd64.AppImage"
+        env:
+            RELEASE_NAME: ${{ needs.get_release_version.outputs.release-name }}
+  build_for_windows:
+    needs: 
+      - get_release_version
+      - build_for_linux
+    runs-on: [tonymushah-fedora-latest]
+    container:
+      image: ubuntu:24.04
+    env:
+       FORGEJO_TOKEN: ${{ secrets.BUILD_APP_TOKEN }}
+       REPO_OWNER: ${{ forgejo.repository_owner }}
+       CURRENT_REPO: ${{ forgejo.repository }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
+        with:
+          ref: 'main'
+      - name: install dependencies
+        run: |
+          sudo apt update;
+          sudo apt install -y \
+            build-essential \
+            procps \
+            curl \
+            wget \
+            file \
+            libssl-dev \
+            libgtk-3-dev \
+            libappindicator3-dev \
+            xdg-utils \
+            librsvg2-dev \
+            nsis \ 
+            zip;
+      - name: install rust
+        run: |
+             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable
+      - name: install forgejo cli
+        run: |
+           cargo install --locked forgejo-cli
+      - name: setup forgejo auth
+        run: |
+            fj auth add-key "$(echo $FORGEJO_OWNER)" $(echo $FORGEJO_TOKEN)
+      - name: setup just 
+        run: |
+            cargo install --locked just
+      - name: install app deps
+        run: |
+            just setup
+      - name: Download llvm-mingw
+        run: |
+            GNU_LLVM_PATH=$(cat /tmp/llvm_gnu_path_file) \
+            just download-set-gnu_llvm_path
+      - name: build app
+        run: |
+            just slow-build-linux-x86-windows-gnu-llvm
+      - name: Bundle a portable release
+        run: |
+            cd target/x86_64-pc-windows-gnullvm/release-slow-compile
+            mkdir bundle/portable
+            zip -r "bundle/portable/Special Eureka_$(echo $RELEASE_NAME)_x64-portable.zip" \
+            	special-eureka.exe \
+             	WebView2Loader.dll
+        env:
+            RELEASE_NAME: ${{ needs.get_release_version.outputs.release-name }}
+      - name: Send the release assets x86_64 to the current release
+        run: |
+            set -x
+            fj release assets create \
+            	"$(echo $RELEASE_NAME)" \
+            	"target/x86_64-pc-windows-gnullvm/release-slow-compile/bundle/nsis/Special Eureka_$(echo $RELEASE_NAME)_x64-setup.exe"
+            fj release assets create \
+            	"$(echo $RELEASE_NAME)" \
+            	"target/x86_64-pc-windows-gnullvm/release-slow-compile/bundle/portable/Special Eureka_$(echo $RELEASE_NAME)_x64-portable.zip"
+        env:
+            RELEASE_NAME: ${{ needs.get_release_version.outputs.release-name }}
+      
+      #- name: install rust
+      #   run: |
+      #       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable
+      # - name: install forgejo cli
+      #   run: |
+      #       cargo install --locked forgejo-cli
+      # - name: setup forgejo auth
+      #   run: |
+      #       fj auth add-key "$(echo $FORGEJO_OWNER)" $(echo $FORGEJO_TOKEN)
+      #   env:
+      #       REPO_OWNER: ${{ forgejo.repository_owner }}
