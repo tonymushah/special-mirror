@@ -95,11 +95,11 @@ I want to focus on the desktop experience first.
 
 If you find a bug or something like that, please create an issue.
 
-## Feedbacks
+~## Feedbacks
 
 If you want to give some feedback, please put them to :
 
-### [Feedbacks Discussions](https://github.com/tonymushah/special-eureka/discussions/categories/feedbacks)
+### [Feedbacks Discussions](https://github.com/tonymushah/special-eureka/discussions/categories/feedbacks) ~
 
 ## Using the source directly
 
@@ -108,7 +108,8 @@ Before we start, make sure you have meet the [Tauri Prerequisites](https://tauri
 And, this project also uses:
 
 - [pnpm](https://pnpm.io) as a package manager,
-- [vite-plus](https://viteplus.dev/) for "unifying"
+- [vite-plus](https://viteplus.dev/) for "unifying" 
+- [just](https://just.systems/) for command runner
 
 so make sure you have installed it.
 
@@ -123,15 +124,14 @@ git clone https://codeberg.org/tonymushah/special-eureka.git
 Second, install the frontend dependencies:
 
 ```bash
-pnpm install
+# This will install the javascript dependencies and fetch the required rust crates
+just setup
 ```
-
-Note : Make sure you have [pnpm](https://pnpm.io) installed
 
 Last, but at least :
 
 ```bash
-pnpm dev
+just dev
 ```
 
 The build might take a long time, like 30 minutes so i recommend doing something else in the meantime.
@@ -140,13 +140,13 @@ The build might take a long time, like 30 minutes so i recommend doing something
 
 ### Building a standlone binary
 
-There might be some edge cases where you want a portable release. _We are working on [it](https://github.com/tonymushah/special-eureka/issues/926)_.
-
-In the meantime, you can build a standlone binary by running:
+You can build a standlone binary by running:
 
 ```bash
-pnpm build:no-bundle
+just build-no-bundle
 ```
+
+The standalone binary should be located at `target/release/`.
 
 ## License
 
