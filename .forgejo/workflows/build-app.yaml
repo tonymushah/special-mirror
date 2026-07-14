@@ -16,9 +16,6 @@ jobs:
     outputs:
        release-name: ${{ steps.create-release.outputs.release-name }}
     steps:
-      - name: Install node
-        run: | 
-            apk add node
       - name: Checkout the repository
         uses: actions/checkout@v6
         with:
