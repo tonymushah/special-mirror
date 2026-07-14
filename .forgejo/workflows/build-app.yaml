@@ -2,7 +2,7 @@ name: Build app
 permissions:
   contents: read
 on:
-  - workflow_dispatch
+ - workflow_dispatch
   	
 jobs:
   get_release_version:
