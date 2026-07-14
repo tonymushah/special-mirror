@@ -1,11 +1,9 @@
 # Special Eureka
 
-[![build-test](https://github.com/tonymushah/special-mirror/actions/workflows/build.yaml/badge.svg)](https://github.com/tonymushah/special-mirror/actions/workflows/build.yaml)
-
 > [!IMPORTANT]  
 > Special Eureka has moved to [Codeberg](https://codeberg.org/tonymushah/special-eureka).
 >
-> We only use Github for releases via [`tonymushah/special-mirror`](https://github.com/tonymushah/special-mirror)
+> Old releases are available at [`github.com/special-eureka/special-eureka`](https://github.com/special-eureka/special-eureka)
 
 A desktop manga reader which support for :
 
