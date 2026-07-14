@@ -22,7 +22,7 @@ jobs:
           ref: 'main'
       - name: install deps
         run: | 
-            apk add curl dasel gcc bash
+            apk add curl dasel gcc bash openssl-dev
       - name: install rust
         run: |
              curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
