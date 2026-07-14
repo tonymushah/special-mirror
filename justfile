@@ -105,7 +105,7 @@ slow-build-linux-x86:
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64:
-    pnpm tauri build -f mimalloc --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
+    pnpm tauri build -f mimalloc -r cargo-zigbuild --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
 
 # Slowly build the app for x86 windows on Linux by using `gnu-llvm`
 #
@@ -156,3 +156,9 @@ download-set-gnu_llvm_path:
     echo "$(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)" >> "$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file"
     @echo "Exported llvm-gnu to $(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file."
     @echo "Run 'cat \"$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm_gnu_path_file\"' to show the path."
+
+[group("build")]
+[group("slow-build")]
+[linux]
+slow-build-all: slow-build-linux-aarch64 slow-build-linux-aarch64-windows-gnu-llvm slow-build-linux-x86 slow-build-linux-x86-windows-gnu-llvm
+    @echo "Built all"
