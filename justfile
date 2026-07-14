@@ -104,7 +104,7 @@ slow-build-no-bundle-next: vite-build
 [group("slow-build")]
 [linux]
 slow-build-linux-x86:
-    RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build -f mimalloc,http3 --target x86_64-unknown-linux-gnu -- --profile release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build -f mimalloc,http3 --target x86_64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
     cd target/x86_64-unknown-linux-gnu/release-slow-compile
     tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" special-eureka 
 
@@ -113,7 +113,7 @@ slow-build-linux-x86:
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64:
-    pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
+    pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
     cd target/aarch64-unknown-linux-gnu/release-slow-compile
     tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-aarch64-linux-portable.tar.xz" special-eureka 
 
