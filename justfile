@@ -105,7 +105,7 @@ slow-build-linux-x86:
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64:
-    pnpm tauri build -f mimalloc -r cargo-zigbuild --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
+    PKG_CONFIG_SYSROOT_DIR=/ pnpm tauri build -f mimalloc -r cargo-zigbuild --target aarch64-unknown-linux-gnu -- --profile release-slow-compile
 
 # Slowly build the app for x86 windows on Linux by using `gnu-llvm`
 #
