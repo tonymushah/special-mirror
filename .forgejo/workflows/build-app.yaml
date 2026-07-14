@@ -20,18 +20,15 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: 'main'
-      - name: install curl
+      - name: install deps
         run: | 
-            apk add curl
-      - name: setup dazel
-        run: |
-            apk add dasel
+            apk add curl dasel gcc
       - name: install rust
         run: |
              curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
       - name: install forgejo cli
         run: |
-           cargo install --locked forgejo-cli
+            bash -cl "cargo install --locked forgejo-cli"
       - name: setup forgejo auth
         run: |
             fj auth add-key "$(echo $FORGEJO_OWNER)" $(echo $FORGEJO_TOKEN)
@@ -144,6 +141,9 @@ jobs:
       - name: install rust
         run: |
              curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
+      - name: add windows target
+        run: |
+            rustup target add x86_64-pc-windows-gnullvm
       - name: install forgejo cli
         run: |
            cargo install --locked forgejo-cli
