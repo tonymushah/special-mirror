@@ -14,7 +14,8 @@ apt-get install -y \
   libgtk-3-dev:arm64 \
   libappindicator3-dev:arm64 \
   xdg-utils:arm64 \
-  librsvg2-dev:arm64
+  librsvg2-dev:arm64 \
+  apt-utils
 
 apt-get install -y \
   libwebkit2gtk-4.1-0:arm64=2.44.0-2 \
