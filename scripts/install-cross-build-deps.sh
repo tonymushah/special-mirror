@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-sudo apt update
+apt update
 
-sudo apt install -y \
+apt install -y \
   build-essential \
   procps \
   curl \
@@ -14,7 +14,7 @@ sudo apt install -y \
   xdg-utils \
   librsvg2-dev
 
-sudo apt install -y \
+apt install -y \
   libwebkit2gtk-4.1-0=2.44.0-2 \
   libwebkit2gtk-4.1-dev=2.44.0-2 \
   libjavascriptcoregtk-4.1-0=2.44.0-2 \
