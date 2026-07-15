@@ -105,7 +105,14 @@ slow-build-no-bundle-next: vite-build
 [linux]
 slow-build-linux-x86:
     RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build -f mimalloc,http3 --target x86_64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
-    cd target/x86_64-unknown-linux-gnu/release-slow-compile
+
+# Slowly build the app for x86_64 linux with portable release
+[group("build")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+[working-directory('target/x86_64-unknown-linux-gnu/release-slow-compile')]
+slow-build-linux-x86-with-portable: slow-build-linux-x86
     mkdir -p bundle/portable
     tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" special-eureka 
 
@@ -115,7 +122,14 @@ slow-build-linux-x86:
 [linux]
 slow-build-linux-aarch64:
     pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
-    cd target/aarch64-unknown-linux-gnu/release-slow-compile
+
+# Slowly build the app for aarch64 linux with portable release
+[group("build")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+[working-directory('target/aarch64-unknown-linux-gnu/release-slow-compile')]
+slow-build-linux-aarch64-with-portable: slow-build-linux-aarch64
     mkdir -p bundle/portable
     tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-aarch64-linux-portable.tar.xz" special-eureka 
 
@@ -128,8 +142,16 @@ slow-build-linux-aarch64:
 [group("slow-build")]
 [linux]
 slow-build-linux-x86-windows-gnu-llvm:
-    RUSTFLAGS='--cfg reqwest_unstable' PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
-    cd target/x86_64-pc-windows-gnullvm/release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable' PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
+
+# Slowly build the app for x86 windows on Linux by using `gnu-llvm` with portable bundle
+[group("build")]
+[group("linux-windows")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+[working-directory('target/x86_64-pc-windows-gnullvm/release-slow-compile')]
+slow-build-linux-x86-windows-gnu-llvm-with-portable: slow-build-linux-x86-windows-gnu-llvm
     mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
@@ -140,7 +162,15 @@ slow-build-linux-x86-windows-gnu-llvm:
 [linux]
 slow-build-linux-x86-windows-xwin:
     pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target x86_64-pc-windows-msvc -- --profile release-slow-compile
-    cd target/x86_64-pc-windows-msvc/release-slow-compile
+
+# Slowly build the app for x86 windows on Linux by using `cargo-xwin` with portable bundle
+[group("build")]
+[group("linux-windows")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+[working-directory('target/x86_64-pc-windows-msvc/release-slow-compile')]
+slow-build-linux-x86-windows-xwin-with-portable: slow-build-linux-x86-windows-xwin
     mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
@@ -153,18 +183,35 @@ slow-build-linux-x86-windows-xwin:
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64-windows-gnu-llvm:
-    PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
-    cd target/aarch64-pc-windows-gnullvm/release-slow-compile
+    PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
+
+# Slowly build the app for aarch64 windows on Linux by using `gnu-llvm` with portable bundle
+[group("build")]
+[group("linux-windows")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+[working-directory('target/aarch64-pc-windows-gnullvm/release-slow-compile')]
+slow-build-linux-aarch64-windows-gnu-llvm-with-portable: slow-build-linux-aarch64-windows-gnu-llvm
     mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Slowly build the app for aarch64 windows on Linux by using `cargo-xwin`
 [group("build")]
+[group("linux-windows")]
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64-windows-xwin:
     pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile
-    cd target/aarch64-pc-windows-msvc/release-slow-compile
+
+# Slowly build the app for aarch64 windows on Linux by using `cargo-xwin`
+[group("build")]
+[group("linux-windows")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+[working-directory('target/aarch64-pc-windows-msvc/release-slow-compile')]
+slow-build-linux-aarch64-windows-xwin-with-portable: slow-build-linux-aarch64-windows-xwin
     mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
@@ -186,16 +233,34 @@ download-gnu-llvm:
     @echo "Downloaded llvm-mingw to \"$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw\" to show the path."
 
 [group("build")]
+[group("linux-windows")]
 [group("slow-build")]
 [linux]
 slow-build-all-x86_64: slow-build-linux-x86 slow-build-linux-x86-windows-gnu-llvm
     @echo "Built all x86_64 linux and windows (gnu) targets"
 
 [group("build")]
+[group("linux-windows")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+slow-build-all-x86_64-with-portable: slow-build-linux-x86-with-portable slow-build-linux-x86-windows-gnu-llvm-with-portable
+    @echo "Built all x86_64 linux and windows (gnu) targets with their portable bundle"
+
+[group("build")]
+[group("linux-windows")]
 [group("slow-build")]
 [linux]
 slow-build-all-aarch64: slow-build-linux-aarch64 slow-build-linux-aarch64-windows-gnu-llvm
     @echo "Built all x linux and windows (gnu) targets"
+
+[group("build")]
+[group("linux-windows")]
+[group("slow-build")]
+[group("with-portable")]
+[linux]
+slow-build-all-aarch64-with-portable: slow-build-linux-aarch64-with-portable slow-build-linux-aarch64-windows-gnu-llvm-with-portable
+    @echo "Built all x linux and windows (gnu) targets with their portable bundle"
 
 [group("build")]
 [group("utils")]
