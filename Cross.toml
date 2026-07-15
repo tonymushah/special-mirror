@@ -1,2 +1,2 @@
 [target.aarch64-unknown-linux-gnu]
-pre-build = "./scripts/install-cross-build-deps.sh"
+pre-build = "./scripts/install-arm64-cross-build-deps.sh"
