@@ -232,6 +232,7 @@ download-gnu-llvm:
     rmdir $(echo $LLVM_MINGW_DONWLOAD_PATH)/$(echo $LLVM_MINGW_BASE_DIR)
     @echo "Downloaded llvm-mingw to \"$(echo $LLVM_MINGW_DONWLOAD_PATH)/llvm-mingw\" to show the path."
 
+# Build for all x86_64 target: using linux and windows gnu
 [group("build")]
 [group("linux-windows")]
 [group("slow-build")]
@@ -239,6 +240,7 @@ download-gnu-llvm:
 slow-build-all-x86_64: slow-build-linux-x86 slow-build-linux-x86-windows-gnu-llvm
     @echo "Built all x86_64 linux and windows (gnu) targets"
 
+# Build for all x86_64 target with portable bundle: using linux and windows gnu
 [group("build")]
 [group("linux-windows")]
 [group("slow-build")]
@@ -247,6 +249,7 @@ slow-build-all-x86_64: slow-build-linux-x86 slow-build-linux-x86-windows-gnu-llv
 slow-build-all-x86_64-with-portable: slow-build-linux-x86-with-portable slow-build-linux-x86-windows-gnu-llvm-with-portable
     @echo "Built all x86_64 linux and windows (gnu) targets with their portable bundle"
 
+# Build for all aarch64 target: using linux and windows gnu
 [group("build")]
 [group("linux-windows")]
 [group("slow-build")]
@@ -254,6 +257,7 @@ slow-build-all-x86_64-with-portable: slow-build-linux-x86-with-portable slow-bui
 slow-build-all-aarch64: slow-build-linux-aarch64 slow-build-linux-aarch64-windows-gnu-llvm
     @echo "Built all x linux and windows (gnu) targets"
 
+# Build for all aarch64 target with portable bundle: using linux and windows gnu
 [group("build")]
 [group("linux-windows")]
 [group("slow-build")]
