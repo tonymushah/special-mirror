@@ -52,7 +52,7 @@ jobs:
         run: |
             wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
       - name: install vite plus       
-        name: |
+        run: |
             curl -fsSL https://vite.plus | bash
       - name: install app deps
         run: |
