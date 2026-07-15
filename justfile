@@ -3,7 +3,7 @@ set minimum-version := "1.56.0"
 set lazy
 
 gnu_llvm_path := env('GNU_LLVM_PATH', '.gnu-llvm/llvm-mingw')
-app_version := env("APP_VERSION", '0.2.4')
+app_version := env("APP_VERSION", '0.2.4-11')
 
 [group("utils")]
 cloc-project:
