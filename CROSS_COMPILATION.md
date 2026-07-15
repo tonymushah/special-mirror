@@ -20,7 +20,7 @@ Cross-compilation is only supported on Linux (since I am Fedora Linux user)
 and we currently support these targets:
 
 - `x86_64-unknown-linux-gnu`
-- `aarch64-unknown-linux-gnu` via [`cross`]
+- `aarch64-unknown-linux-gnu` via [`cross`]. (There are some issues with the cross for now haha...)
 - `x86_64-pc-windows-gnullvm` via [`llvm-mingw`]
 - `x86_64-pc-windows-msvc` via [`cargo-xwin`]
 - `aarch64-pc-windows-gnullvm` via [`llvm-mingw`]
