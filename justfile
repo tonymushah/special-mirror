@@ -266,6 +266,46 @@ slow-build-all-aarch64: slow-build-linux-aarch64 slow-build-linux-aarch64-window
 slow-build-all-aarch64-with-portable: slow-build-linux-aarch64-with-portable slow-build-linux-aarch64-windows-gnu-llvm-with-portable
     @echo "Built all x linux and windows (gnu) targets with their portable bundle"
 
+[linux]
+_slow-build-release: slow-build-all-x86_64-with-portable slow-build-linux-aarch64-windows-gnu-llvm-with-portable
+    @echo "Finished build release"
+
+[linux]
+[working-directory("target")]
+_copy-slow_build-releases:
+    mkdir -p release-bundles
+    # copy windows x64 bundles
+    cp "x86_64-pc-windows-gnullvm/release-slow-compile/bundle/nsis/Special Eureka_{{ app_version }}_x64-setup.exe" "release-bundles/Special Eureka_{{ app_version }}_x64-setup.exe" 
+    cp "x86_64-pc-windows-gnullvm/release-slow-compile/bundle/portable/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" "release-bundles/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip"
+    # copy windows aarch64 bundles
+    cp "aarch64-pc-windows-gnullvm/release-slow-compile/bundle/nsis/Special Eureka_{{ app_version }}_arm64-setup.exe" "release-bundles/Special Eureka_{{ app_version }}_arm64-setup.exe" 
+    cp "aarch64-pc-windows-gnullvm/release-slow-compile/bundle/portable/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" "release-bundles/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip"
+
+    # copy linux x86_64 bundles
+    cp "x86_64-unknown-linux-gnu/release-slow-compile/bundle/deb/Special Eureka_{{ app_version }}_amd64.deb" "release-bundles/Special Eureka_{{ app_version }}_amd64.deb"
+    cp "x86_64-unknown-linux-gnu/release-slow-compile/bundle/rpm/Special Eureka-{{ app_version }}-1.x86_64.rpm" "release-bundles/Special Eureka-{{ app_version }}-1.x86_64.rpm"
+    cp "x86_64-unknown-linux-gnu/release-slow-compile/bundle/portable/Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" "release-bundles/Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz"
+
+[linux]
+[working-directory("target/release-bundles")]
+_gen-release-bundle-checksum:
+	sha256sum "Special Eureka_{{ app_version }}_x64-setup.exe" > windows-x64-setup-SHA256SUM
+	sha256sum "Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" > windows-x86_64-portable-SHA256SUM
+	sha256sum "Special Eureka_{{ app_version }}_arm64-setup.exe" > windows-arm64-setup-SHA256SUM
+	sha256sum "Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" > windows-aarch64-portable-SHA256SUM
+	sha256sum "Special Eureka_{{ app_version }}_amd64.deb" > deb-amd64-SHA256SUM
+	sha256sum "Special Eureka-{{ app_version }}-1.x86_64.rpm" > rpm-x86_64-SHA256SUM
+	sha256sum "Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" > x86_64-linux-portable.SHA256SUM
+
+[group("build")]
+[group("release")]
+[group("slow-build")]
+[linux]
+[working-directory("target/release-bundles")]
+slow-build-release: _slow-build-release _copy-slow_build-releases _gen-release-bundle-checksum
+	@echo "Built project at \`target/release-bundles\`"
+    
+
 [group("build")]
 [group("utils")]
 [linux]
