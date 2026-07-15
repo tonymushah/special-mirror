@@ -121,7 +121,7 @@ slow-build-linux-x86-with-portable: slow-build-linux-x86
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64:
-    pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
+    pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile -v
 
 # Slowly build the app for aarch64 linux with portable release
 [group("build")]
