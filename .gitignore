@@ -12,3 +12,4 @@ vite.config.ts.timestamp-*
 /src-tauri/target
 /data
 debug.log
+.gnu-llvm
