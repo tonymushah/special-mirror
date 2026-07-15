@@ -14,8 +14,6 @@ jobs:
        REPO_OWNER: ${{ forgejo.repository_owner }}
        CURRENT_REPO: ${{ forgejo.repository }}
     steps:
-      - name: Checkout the repository
-        uses: https://data.forgejo.org/actions/checkout@v6
       - name: install dependencies
         run: |
           sudo apt update;
@@ -33,7 +31,8 @@ jobs:
             dasel \
             nsis \ 
             tar \
-            zip;
+            zip \
+            nodejs;
           sudo apt install -y \
             libwebkit2gtk-4.1-0=2.44.0-2 \
             libwebkit2gtk-4.1-dev=2.44.0-2 \
@@ -41,6 +40,8 @@ jobs:
             libjavascriptcoregtk-4.1-dev=2.44.0-2 \
             gir1.2-javascriptcoregtk-4.1=2.44.0-2 \
             gir1.2-webkit2-4.1=2.44.0-2;
+      - name: Checkout the repository
+        uses: https://data.forgejo.org/actions/checkout@v6
       - name: install rust
         run: |
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
