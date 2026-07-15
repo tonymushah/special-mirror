@@ -106,6 +106,7 @@ slow-build-no-bundle-next: vite-build
 slow-build-linux-x86:
     RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build -f mimalloc,http3 --target x86_64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
     cd target/x86_64-unknown-linux-gnu/release-slow-compile
+    mkdir -p bundle/portable
     tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" special-eureka 
 
 # Slowly build the app for aarch64 linux
@@ -115,6 +116,7 @@ slow-build-linux-x86:
 slow-build-linux-aarch64:
     pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
     cd target/aarch64-unknown-linux-gnu/release-slow-compile
+    mkdir -p bundle/portable
     tar -cJf "bundle/portable/Special Eureka-{{ app_version }}-aarch64-linux-portable.tar.xz" special-eureka 
 
 # Slowly build the app for x86 windows on Linux by using `gnu-llvm`
@@ -128,6 +130,7 @@ slow-build-linux-aarch64:
 slow-build-linux-x86-windows-gnu-llvm:
     RUSTFLAGS='--cfg reqwest_unstable' PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
     cd target/x86_64-pc-windows-gnullvm/release-slow-compile
+    mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Slowly build the app for x86 windows on Linux by using `cargo-xwin`
@@ -138,6 +141,7 @@ slow-build-linux-x86-windows-gnu-llvm:
 slow-build-linux-x86-windows-xwin:
     pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target x86_64-pc-windows-msvc -- --profile release-slow-compile
     cd target/x86_64-pc-windows-msvc/release-slow-compile
+    mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Slowly build the app for aarch64 windows on Linux by using `gnu-llvm`
@@ -151,6 +155,7 @@ slow-build-linux-x86-windows-xwin:
 slow-build-linux-aarch64-windows-gnu-llvm:
     PATH="{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
     cd target/aarch64-pc-windows-gnullvm/release-slow-compile
+    mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Slowly build the app for aarch64 windows on Linux by using `cargo-xwin`
@@ -160,6 +165,7 @@ slow-build-linux-aarch64-windows-gnu-llvm:
 slow-build-linux-aarch64-windows-xwin:
     pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile
     cd target/aarch64-pc-windows-msvc/release-slow-compile
+    mkdir -p bundle/portable
     zip -r "bundle/portable/Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" special-eureka.exe WebView2Loader.dll
 
 # Donwload llvm-mingw to normally .gnu-llvm/llvm-mingw
