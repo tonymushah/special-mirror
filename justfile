@@ -3,7 +3,7 @@ set minimum-version := "1.56.0"
 set lazy
 
 gnu_llvm_path := env('GNU_LLVM_PATH', '.gnu-llvm/llvm-mingw')
-app_version := env("APP_VERSION", '0.2.4-11')
+app_version := env("APP_VERSION", '0.2.4-12')
 
 [group("utils")]
 cloc-project:
@@ -56,7 +56,7 @@ build:
 [group("build")]
 [group("slow-build")]
 slow-build:
-    pnpm tauri build -- --profile release-slow-compile
+    pnpm tauri build --verbose -- --profile release-slow-compile
 
 test-js:
     pnpm run test:integration && npm run test:unit
@@ -78,33 +78,33 @@ vite-build:
 [group("build")]
 [group("build-no-bundle")]
 build-no-bundle: vite-build
-    cargo build -r --no-default-features -F no_bundle
+    cargo build -r --verbose --no-default-features -F no_bundle
 
 [group("build")]
 [group("build-no-bundle")]
 [group("next")]
 build-no-bundle-next: vite-build
-    RUSTFLAGS='--cfg reqwest_unstable' cargo build -r --no-default-features -F no_bundle,next
+    RUSTFLAGS='--cfg reqwest_unstable' cargo build --verbose -r --no-default-features -F no_bundle,next
 
 [group("build")]
 [group("build-no-bundle")]
 [group("slow-build")]
 slow-build-no-bundle: vite-build
-    cargo build --profile release-slow-compile --no-default-features -F no_bundle
+    cargo build --verbose --profile release-slow-compile --no-default-features -F no_bundle
 
 [group("build")]
 [group("build-no-bundle")]
 [group("next")]
 [group("slow-build")]
 slow-build-no-bundle-next: vite-build
-    RUSTFLAGS='--cfg reqwest_unstable' cargo build --profile release-slow-compile --no-default-features -F no_bundle,next,mimalloc
+    RUSTFLAGS='--cfg reqwest_unstable' cargo build --verbose --profile release-slow-compile --no-default-features -F no_bundle,next,mimalloc
 
 # Slowly build the app for x86_64 linux
 [group("build")]
 [group("slow-build")]
 [linux]
 slow-build-linux-x86:
-    RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build -f mimalloc,http3 --target x86_64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build --verbose -f mimalloc,http3 --target x86_64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
 
 # Slowly build the app for x86_64 linux with portable release
 [group("build")]
@@ -121,7 +121,7 @@ slow-build-linux-x86-with-portable: slow-build-linux-x86
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64:
-    pnpm tauri build -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile -v
+    pnpm tauri build --verbose -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile -v
 
 # Slowly build the app for aarch64 linux with portable release
 [group("build")]
@@ -142,7 +142,7 @@ slow-build-linux-aarch64-with-portable: slow-build-linux-aarch64
 [group("slow-build")]
 [linux]
 slow-build-linux-x86-windows-gnu-llvm:
-    RUSTFLAGS='--cfg reqwest_unstable' PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable' PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build --verbose -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
 
 # Slowly build the app for x86 windows on Linux by using `gnu-llvm` with portable bundle
 [group("build")]
@@ -161,7 +161,7 @@ slow-build-linux-x86-windows-gnu-llvm-with-portable: slow-build-linux-x86-window
 [group("slow-build")]
 [linux]
 slow-build-linux-x86-windows-xwin:
-    pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target x86_64-pc-windows-msvc -- --profile release-slow-compile
+    pnpm tauri build --verbose -f mimalloc -b nsis -r cargo-xwin --target x86_64-pc-windows-msvc -- --profile release-slow-compile
 
 # Slowly build the app for x86 windows on Linux by using `cargo-xwin` with portable bundle
 [group("build")]
@@ -183,7 +183,7 @@ slow-build-linux-x86-windows-xwin-with-portable: slow-build-linux-x86-windows-xw
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64-windows-gnu-llvm:
-    PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
+    PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build --verbose -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
 
 # Slowly build the app for aarch64 windows on Linux by using `gnu-llvm` with portable bundle
 [group("build")]
@@ -202,7 +202,7 @@ slow-build-linux-aarch64-windows-gnu-llvm-with-portable: slow-build-linux-aarch6
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64-windows-xwin:
-    pnpm tauri build -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile
+    pnpm tauri build --verbose -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile
 
 # Slowly build the app for aarch64 windows on Linux by using `cargo-xwin`
 [group("build")]
@@ -289,13 +289,13 @@ _copy-slow_build-releases:
 [linux]
 [working-directory("target/release-bundles")]
 _gen-release-bundle-checksum:
-	sha256sum "Special Eureka_{{ app_version }}_x64-setup.exe" > windows-x64-setup-SHA256SUM
-	sha256sum "Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" > windows-x86_64-portable-SHA256SUM
-	sha256sum "Special Eureka_{{ app_version }}_arm64-setup.exe" > windows-arm64-setup-SHA256SUM
-	sha256sum "Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" > windows-aarch64-portable-SHA256SUM
-	sha256sum "Special Eureka_{{ app_version }}_amd64.deb" > deb-amd64-SHA256SUM
-	sha256sum "Special Eureka-{{ app_version }}-1.x86_64.rpm" > rpm-x86_64-SHA256SUM
-	sha256sum "Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" > x86_64-linux-portable.SHA256SUM
+    sha256sum "Special Eureka_{{ app_version }}_x64-setup.exe" > windows-x64-setup-SHA256SUM
+    sha256sum "Special Eureka-{{ app_version }}-x86_64-windows-portable.zip" > windows-x86_64-portable-SHA256SUM
+    sha256sum "Special Eureka_{{ app_version }}_arm64-setup.exe" > windows-arm64-setup-SHA256SUM
+    sha256sum "Special Eureka-{{ app_version }}-aarch64-windows-portable.zip" > windows-aarch64-portable-SHA256SUM
+    sha256sum "Special Eureka_{{ app_version }}_amd64.deb" > deb-amd64-SHA256SUM
+    sha256sum "Special Eureka-{{ app_version }}-1.x86_64.rpm" > rpm-x86_64-SHA256SUM
+    sha256sum "Special Eureka-{{ app_version }}-x86_64-linux-portable.tar.xz" > x86_64-linux-portable.SHA256SUM
 
 [group("build")]
 [group("release")]
@@ -303,8 +303,7 @@ _gen-release-bundle-checksum:
 [linux]
 [working-directory("target/release-bundles")]
 slow-build-release: _slow-build-release _copy-slow_build-releases _gen-release-bundle-checksum
-	@echo "Built project at \`target/release-bundles\`"
-    
+    @echo "Built project at \`target/release-bundles\`"
 
 [group("build")]
 [group("utils")]
