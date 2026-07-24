@@ -129,6 +129,7 @@ opt-level = 1
 opt-level = 3
 lto = true
 strip = true
+panic = "abort"
 
 # this is used for github releases ci
 [profile.release-slow-compile]

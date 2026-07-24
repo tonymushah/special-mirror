@@ -97,14 +97,14 @@ slow-build-no-bundle: vite-build
 [group("next")]
 [group("slow-build")]
 slow-build-no-bundle-next: vite-build
-    RUSTFLAGS='--cfg reqwest_unstable' cargo build --verbose --profile release-slow-compile --no-default-features -F no_bundle,next,mimalloc
+    RUSTFLAGS='--cfg reqwest_unstable' cargo build --verbose --profile release-slow-compile --no-default-features -F no_bundle,next,mimalloc -v
 
 # Slowly build the app for x86_64 linux
 [group("build")]
 [group("slow-build")]
 [linux]
 slow-build-linux-x86:
-    RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build --verbose -f mimalloc,http3 --target x86_64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable' pnpm tauri build --verbose -f mimalloc,http3 --target x86_64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile -v
 
 # Slowly build the app for x86_64 linux with portable release
 [group("build")]
@@ -121,7 +121,7 @@ slow-build-linux-x86-with-portable: slow-build-linux-x86
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64:
-    pnpm tauri build --verbose -f mimalloc -r cross --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile -v
+    pnpm tauri build --verbose -f mimalloc --target aarch64-unknown-linux-gnu -b rpm,deb -- --profile release-slow-compile -v
 
 # Slowly build the app for aarch64 linux with portable release
 [group("build")]
@@ -142,7 +142,7 @@ slow-build-linux-aarch64-with-portable: slow-build-linux-aarch64
 [group("slow-build")]
 [linux]
 slow-build-linux-x86-windows-gnu-llvm:
-    RUSTFLAGS='--cfg reqwest_unstable' PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build --verbose -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile
+    RUSTFLAGS='--cfg reqwest_unstable -C target-feature=+crt-static' PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build --verbose -f mimalloc,http3 -b nsis --target x86_64-pc-windows-gnullvm -- --profile release-slow-compile -v
 
 # Slowly build the app for x86 windows on Linux by using `gnu-llvm` with portable bundle
 [group("build")]
@@ -161,7 +161,7 @@ slow-build-linux-x86-windows-gnu-llvm-with-portable: slow-build-linux-x86-window
 [group("slow-build")]
 [linux]
 slow-build-linux-x86-windows-xwin:
-    pnpm tauri build --verbose -f mimalloc -b nsis -r cargo-xwin --target x86_64-pc-windows-msvc -- --profile release-slow-compile
+    pnpm tauri build --verbose -f mimalloc -b nsis -r cargo-xwin --target x86_64-pc-windows-msvc -- --profile release-slow-compile -v
 
 # Slowly build the app for x86 windows on Linux by using `cargo-xwin` with portable bundle
 [group("build")]
@@ -183,7 +183,7 @@ slow-build-linux-x86-windows-xwin-with-portable: slow-build-linux-x86-windows-xw
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64-windows-gnu-llvm:
-    PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build --verbose -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile
+    PATH="$(pwd)/{{ gnu_llvm_path }}/bin:$(echo $PATH)" pnpm tauri build --verbose -f mimalloc -b nsis --target aarch64-pc-windows-gnullvm -- --profile release-slow-compile -v
 
 # Slowly build the app for aarch64 windows on Linux by using `gnu-llvm` with portable bundle
 [group("build")]
@@ -202,7 +202,7 @@ slow-build-linux-aarch64-windows-gnu-llvm-with-portable: slow-build-linux-aarch6
 [group("slow-build")]
 [linux]
 slow-build-linux-aarch64-windows-xwin:
-    pnpm tauri build --verbose -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile
+    pnpm tauri build --verbose -f mimalloc -b nsis -r cargo-xwin --target aarch64-pc-windows-msvc -- --profile release-slow-compile -v
 
 # Slowly build the app for aarch64 windows on Linux by using `cargo-xwin`
 [group("build")]

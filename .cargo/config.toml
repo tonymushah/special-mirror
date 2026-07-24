@@ -1,2 +1,7 @@
 [target.x86_64-pc-windows-gnullvm]
+# note to myself we put the rustflag to the just file since this will never be read lmao
+# rustflags = ["--cfg", "reqwest_unstable", "-C", "target-feature=+crt-static"]
+
+
+[target.aarch64-pc-windows-gnullvm]
 rustflags = ["-C", "target-feature=+crt-static"]
